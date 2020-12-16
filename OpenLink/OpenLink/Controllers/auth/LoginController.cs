@@ -35,10 +35,20 @@ namespace OpenLink.Controllers.auth
             return myAccount;
             
         }
+        [HttpPost("auth/login")]
 
+        public ActionResult<AccountResult> Login(Account account)
+        {
+            //check login info
+            //create access token and refresh token
 
+            return new AccountResult
+            {
+                IsValid=true,
+                AccessToken ="accessToken",
+                RefreshToken="refreshToken"
+            };
 
-
-
+        }
     }
 }
