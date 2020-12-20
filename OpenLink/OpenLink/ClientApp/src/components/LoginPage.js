@@ -8,7 +8,11 @@ import React, { Component } from 'react';
 
 export class LoginPage extends Component {
 
+   
+
     static displayName = LoginPage.name;
+
+   
 
     constructor(props) {
         super(props);
@@ -20,6 +24,9 @@ export class LoginPage extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.updateUsername = this.updateUsername.bind(this);
+        this.login = this.login.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
     }
 
     handleChange(e) {
@@ -37,20 +44,35 @@ export class LoginPage extends Component {
         }
     }
     
+    
+    updateUsername(event) {
 
+        this.setState({ username: event.target.value });
+        console.log("new username = " + this.state.username); 
+    }
+    updatePassword(event) {
+
+        this.setState({ password: event.target.value });
+        console.log("new password = " + this.state.password);
+    }
+
+    login() {
+        console.log("Button clicked password = " + this.state.password + " username =" + this.state.username);
+    }
  
 
     render() {
-        const { loggingIn } = this.props;
+        
         const { username, password, submitted } = this.state;
+
+        
         return (
             <div>
                 <div>
                 <input
-                    type="text"
-                      
-                    autoComplete="new-password"
-                    onChange={(event, newValue) => this.setState({ username: newValue })}
+                        type="text"
+
+                        onChange={this.updateUsername}
                 />
                     <br />
                 </div>
@@ -58,23 +80,21 @@ export class LoginPage extends Component {
                 <br />
                 <div style={{ marginTop: 10 }}>
                 <input
-                    type="password"
-                    hintText="Enter your Password"
-                    floatingLabelText="Password"
-                    onChange={(event, newValue) => this.setState({ password: newValue })}
+                        type="password"
+                        onChange={this.updatePassword}
                 />
                     <br />
                 </div>
-                <button >Login</button>
+                <button onClick={this.login}>Login</button>
              
             </div>
         );
+        
     }
 }
-function mapState(state) {
-    const { loggingIn } = state.authentication;
-    return { loggingIn };
-}
+
+
+
 
 
 

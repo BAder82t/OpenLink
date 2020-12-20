@@ -40,8 +40,6 @@ namespace OpenLink.Controllers.auth
         [HttpGet("auth/loginall")]
         public IEnumerable<Account> GetAll()
         {
-            
-
             return _context.Account.ToList();
 
         }
@@ -52,6 +50,7 @@ namespace OpenLink.Controllers.auth
             //check login info
             //create access token and refresh token
             _context.Add(account);
+            _context.SaveChanges();
 
             return new AccountResult
             {
