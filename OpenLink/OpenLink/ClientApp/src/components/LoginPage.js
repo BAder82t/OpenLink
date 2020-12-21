@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './Login.scss';
 
 
 
@@ -58,35 +58,41 @@ export class LoginPage extends Component {
 
     login() {
         console.log("Button clicked password = " + this.state.password + " username =" + this.state.username);
+        
     }
  
 
     render() {
         
-        const { username, password, submitted } = this.state;
 
         
         return (
-            <div>
-                <div>
-                <input
-                        type="text"
+            <div className="login_div">
+                <form>
+                    <div>
+                        <h2>Username</h2>
+                    <input
+                            type="text"
 
-                        onChange={this.updateUsername}
-                />
-                    <br />
-                </div>
+                            onChange={this.updateUsername}
+                    />
+                        <br />
+                    </div>
                     
-                <br />
-                <div style={{ marginTop: 10 }}>
-                <input
-                        type="password"
-                        onChange={this.updatePassword}
-                />
                     <br />
-                </div>
-                <button onClick={this.login}>Login</button>
-             
+                    <div style={{ marginTop: 10 }}>
+                        <h2>Password</h2>
+                    <input
+                            type="password"
+                            onChange={this.updatePassword}
+                    />
+                        <br />
+                    </div>
+                    <br/>
+                    <button className="button button-block"
+                        onClick={this.login}>Login
+                    </button>
+                </form>
             </div>
         );
         
