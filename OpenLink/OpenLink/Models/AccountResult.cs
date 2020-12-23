@@ -10,6 +10,8 @@ namespace OpenLink.Models
         public Boolean IsValid { get; set; }
         public String AccessToken { get; set; }
         public String RefreshToken { get; set; }
+        public String ID { get; set; }
+
 
     }
 }

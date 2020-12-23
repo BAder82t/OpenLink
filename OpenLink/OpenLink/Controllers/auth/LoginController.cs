@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OpenLink.Data;
 using OpenLink.Models;
+using OpenLink.Service;
 
 namespace OpenLink.Controllers.auth
 {
     [ApiController]
     public class LoginController : Controller
     {
+        
         private readonly OpenLinkContext _context;
 
         public LoginController(OpenLinkContext context)
@@ -28,7 +30,7 @@ namespace OpenLink.Controllers.auth
             {
                 Username ="TEst",
                 Password ="PAssword",
-                ID =1
+                ID =new Guid()
 
             };
             
@@ -39,8 +41,17 @@ namespace OpenLink.Controllers.auth
         // GET: get all acounts
         [HttpGet("auth/loginall")]
         public IEnumerable<Account> GetAll()
+
         {
-            return _context.Account.ToList();
+            if (_context.Account.Any())
+            {
+                return null;
+            }
+            else
+            {
+                return _context.Account.ToList();
+            }
+            
 
         }
         [HttpPost("auth/login")]
@@ -48,15 +59,19 @@ namespace OpenLink.Controllers.auth
         public ActionResult<AccountResult> Login(Account account)
         {
             //check login info
-            //create access token and refresh token
+
+            //account.ID = Guid.NewGuid().ToString();
             _context.Add(account);
             _context.SaveChanges();
+
+            String accesstoken = new TokenGenerator().GenerateToken(account.ID);
+            string refreshtoken = new TokenGenerator().GenerateRefreshToken();
 
             return new AccountResult
             {
                 IsValid=true,
-                AccessToken ="accessToken",
-                RefreshToken="refreshToken"
+                AccessToken =accesstoken,
+                RefreshToken=refreshtoken
             };
 
         }
