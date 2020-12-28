@@ -18,5 +18,7 @@ namespace OpenLink.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public Guid ID { get; set; }
+
+        public Guid RegisterID { get; set; }
     }
 }
