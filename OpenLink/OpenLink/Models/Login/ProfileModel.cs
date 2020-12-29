@@ -8,7 +8,7 @@ namespace OpenLink.Models.Login
     public class ProfileModel
     {
         public string Name { get; set; }
-        public string Usename { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public Guid ID { get; set; }
 
