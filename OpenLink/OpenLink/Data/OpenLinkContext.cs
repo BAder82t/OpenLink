@@ -18,7 +18,7 @@ namespace OpenLink.Data
         public DbSet<OpenLink.Models.Account> Account { get; set; }
 
         public DbSet<OpenLink.Models.Login.ProfileModel> ProfileModel { get; set; }
+        public DbSet<OpenLink.Models.APIModel> APIModels { get; set; }
 
-   
     }
 }
