@@ -23,7 +23,7 @@ namespace OpenLink.Controllers
         public IEnumerable<APIModel> GetAll()
 
         {
-            if (_context.Account.Any())
+            if (_context.APIModels.Any())
             {
                 return null;
             }
@@ -61,6 +61,21 @@ namespace OpenLink.Controllers
             };
 
 
+        }
+        [HttpPost("api/create")]
+        public Boolean Create(APIModel model)
+        {
+            try
+            {
+                model.ID = Guid.NewGuid();
+                _context.APIModels.Add(model);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }
