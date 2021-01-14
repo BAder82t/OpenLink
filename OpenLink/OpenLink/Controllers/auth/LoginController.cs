@@ -40,16 +40,16 @@ namespace OpenLink.Controllers.auth
         }
         // GET: get all acounts
         [HttpGet("auth/loginall")]
-        public IEnumerable<Account> GetAll()
+        public ResponseObject GetAll()
 
         {
-            if (_context.Account.Any())
+            if (!_context.Account.Any())
             {
-                return null;
+                return new ResponseObject(null,false);
             }
             else
             {
-                return _context.Account.ToList();
+                return new ResponseObject(_context.Account.ToList(),true);
             }
             
 
@@ -76,5 +76,7 @@ namespace OpenLink.Controllers.auth
             };
 
         }
+
+
     }
 }

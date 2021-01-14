@@ -6,8 +6,8 @@ import { FetchData } from './components/FetchData';
 import { FetchDataAxios } from './components/FetchDataAxios';
 
 import './custom.css'
-import { LoginPage } from './components/LoginPage';
-import { Dashboard } from './components/Dashboard';
+import { LoginPage } from './views/LoginPage';
+import { Dashboard } from './views/Dashboard';
 
 export default class App extends Component {
   static displayName = App.name;

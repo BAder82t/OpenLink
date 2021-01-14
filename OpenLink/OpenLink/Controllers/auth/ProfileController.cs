@@ -41,19 +41,19 @@ namespace OpenLink.Controllers.auth
         //    return profileModel;
         //}
 
-
+        
 
         // POST: Profile/Register
 
         [HttpPost("profile/register")]
-        public Boolean Register(ProfileModel profileModel)
+        public ResponseObject Register(ProfileModel profileModel)
         {
             try
             {
-
+                
 
                 profileModel.ID = Guid.NewGuid();
-                _context.Add(profileModel);
+                _context.ProfileModel.Add(profileModel);
                 Account newAccount = new Account
                 {
                     ID = Guid.NewGuid(),
@@ -61,14 +61,15 @@ namespace OpenLink.Controllers.auth
                     Password = profileModel.Password,
                     RegisterID = profileModel.ID
                 };
-                _context.Add(newAccount);
+                _context.Account.Add(newAccount);
 
                 _context.SaveChangesAsync();
-                return true;
+
+                return new ResponseObject(true, true);
 
             }catch(Exception e)
             {
-                return false;
+                return new ResponseObject(false, false);
             }
         }
 
