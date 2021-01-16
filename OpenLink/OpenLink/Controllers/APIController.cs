@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OpenLink.Data;
 using OpenLink.Models;
 using System;
@@ -75,6 +76,27 @@ namespace OpenLink.Controllers
             catch (Exception e)
             {
                 return false;
+            }
+        }
+
+
+        [HttpPost("api/search")]
+        public async Task<ResponseObject> Search(String searchString)
+        {
+            try
+            {
+                List<APIModel> models = new List<APIModel>();
+                var apis = from m in _context.APIModels select m;
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    apis = apis.Where(s => s.Title.Contains(searchString));
+
+                }
+                models = await apis.ToListAsync();
+                return new ResponseObject(models, true);
+            }catch(Exception e)
+            {
+                return new ResponseObject(e, false);
             }
         }
     }
