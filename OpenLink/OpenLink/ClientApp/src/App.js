@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
-import { Home } from './components/Home';
+import { Home } from './views/Home';
 import { FetchData } from './components/FetchData';
 import { FetchDataAxios } from './components/FetchDataAxios';
 
 import './custom.css'
 import { LoginPage } from './views/LoginPage';
 import { Dashboard } from './views/Dashboard';
+import { Register } from './views/Register';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -15,11 +16,12 @@ export default class App extends Component {
   render () {
     return (
       <Layout>
-            <Route exact path='/' component={Home} />
+            <Route exact path='/' component={Dashboard} />
             <Route path='/fetch-data' component={FetchData} />
             <Route path='/fetch-data-axios' component={FetchDataAxios} />
             <Route path='/login' component={LoginPage} />
-            <Route path='/dashboard' component={Dashboard} />
+            <Route path='/home' component={Home} />
+            <Route path='/register' component={Register} />
       </Layout>
     );
   }
