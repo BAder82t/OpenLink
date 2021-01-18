@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TextEdit } from '../components/TextEdit';
 
 export class Register extends Component {
 
@@ -8,6 +9,13 @@ export class Register extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            name:"",
+            username:"",
+            password:"",
+            retypePassword:""
+
+        }
     }
 
     render() {
@@ -15,19 +23,26 @@ export class Register extends Component {
             <div className="form">
                 <form>
                     <div>
-                        <h2>Register</h2>
+                        <h2>Create your account</h2>
                         
-                        <input
-                            type="text"
+                        <TextEdit
+                        type="text"
+                        hint="Name"/>
+                        <TextEdit
+                        type="text"
+                        hint="Username"/>
+                        <TextEdit
+                        type="password"
+                        hint="Password"/>
+                        <TextEdit
+                        type="password"
+                        hint="Retype your Password "/>
 
-                            //onChange={this.updateUsername}
-                            
-                            />
                     </div>
                     
-                    <br />
+            
                     
-                    <br/>
+               
                     <button className="button button-block">Register</button>
                 </form>
             </div>

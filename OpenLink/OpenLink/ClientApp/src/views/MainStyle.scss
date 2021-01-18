@@ -34,7 +34,7 @@ body {
 }
 .form {
     background: rgba($form-bg,.9);
-    padding: 60px;
+    padding: 50px;
     max-width: 500px;
     margin: 40px auto;
     border-radius: $br;
@@ -156,3 +156,11 @@ label.highlight {
     position: relative;
     margin-bottom: 40px;
 }
+
+.whiteTextCenter {
+    text-align:center;
+    color:$white;
+    font-weight:$thin;
+    margin:0 0 20px;
+  }
+  

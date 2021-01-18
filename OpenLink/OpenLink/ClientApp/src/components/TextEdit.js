@@ -8,7 +8,8 @@ export class TextEdit extends Component {
     constructor(props) {
         super(props);
         this.state={
-            isActive : false
+            isActive : false,
+            value:''
         }
         this.update = this.update.bind(this);
         
@@ -16,18 +17,23 @@ export class TextEdit extends Component {
 
     update(event) {
 
-        this.setState({ password: event.target.value }, function () { this.check(); });
+        this.setState({ value:event.target.value }, function () { 
+            if (this.state.value == "") {
+                this.setState({ isActive: false })
+            } else {
+                this.setState({ isActive: true })
+    
+            }
+            
+        });
         
     }
-    check() {
-        console.log("new password = " + this.state.password);
-        if (this.state.password == "") {
-            this.setState({ isActive: false })
-        } else {
-            this.setState({ isActive: true })
-
-        }
+    
+    makeChanges= e =>{
+        this.update(e);
+        this.props.getValue(e);
     }
+    
         
 
   render () {
@@ -41,8 +47,8 @@ export class TextEdit extends Component {
                         
                         <input
                             type={this.props.type}
-
-                            onChange={this.update}
+                            
+                            onChange={this.makeChanges}
                             />
                         </div>
       </div>

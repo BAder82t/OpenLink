@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import { TextEdit } from '../components/TextEdit';
 import './MainStyle.scss';
 
@@ -14,16 +15,23 @@ export class LoginPage extends Component {
         this.state = {
             username: '',
             password: '',
-            
             submitted: false
         };
         this.login = this.login.bind(this);
+        this.getPassword =this.getPassword.bind(this);
+        this.getUsername = this.getUsername.bind(this);
     }
 
 
     login() {
         
         
+    }
+    getUsername(event){
+        this.setState({username:event.target.value});
+    }
+    getPassword(event){
+        this.setState({password:event.target.value});
     }
  
 
@@ -32,27 +40,27 @@ export class LoginPage extends Component {
             <div className="form">
                 <form>
                     <div>
-                        <h2>Login</h2>
+                        <h2>Sign in to OpenLink</h2>
                         <TextEdit
-                       
                         type="text"
-                        hint="Username"
-                        
-                        />
+                        getValue = {this.getUsername}
+                        hint="Username"/>
                      
                     </div>
                     
-                    <br />
+          
                     <TextEdit
-                      
                         type="password"
-                        hint="Password"
-                       
-                        />
+                        getValue={this.getPassword}
+                      
+                        hint="Password" />
                    
-                    <br/>
-                    <button className="button button-block">Login
+                    
+                    <button className="button button-block">Sign in
                     </button>
+                    <br/>
+                    <p className="whiteTextCenter">Don't have an account? <br/><Link to="/register">Create one here</Link> </p>
+                    
                 </form>
             </div>
         );
