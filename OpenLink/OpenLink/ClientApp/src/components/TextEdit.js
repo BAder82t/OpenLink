@@ -24,15 +24,13 @@ export class TextEdit extends Component {
                 this.setState({ isActive: true })
     
             }
+            this.props.getValue(this.state.value);
             
         });
         
     }
     
-    makeChanges= e =>{
-        this.update(e);
-        this.props.getValue(e);
-    }
+    
     
         
 
@@ -48,7 +46,7 @@ export class TextEdit extends Component {
                         <input
                             type={this.props.type}
                             
-                            onChange={this.makeChanges}
+                            onChange={this.update}
                             />
                         </div>
       </div>

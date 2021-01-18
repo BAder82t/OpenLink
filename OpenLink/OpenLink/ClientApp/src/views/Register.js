@@ -10,13 +10,32 @@ export class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name:"",
-            username:"",
-            password:"",
-            retypePassword:""
+            name:'',
+            username:'',
+            password:'',
+            retypePassword:''
 
         }
+        this.getName = this.getName.bind(this);
+        this.getRetryPassword = this.getRetryPassword.bind(this);
+        this.getUsername = this.getUsername.bind(this);
+        this.getPassword = this.getPassword.bind(this);
+
     }
+    getPassword(e){
+        this.setState({password:e});
+    }
+    getRetryPassword(e){
+        this.setState({retypePassword:e});
+    }
+    getUsername(e){
+        this.setState({username:e});
+    }
+    getName(e){
+        this.setState({name:e},
+            function() {console.log("test name is "+ this.state.name)});
+    }
+   
 
     render() {
         return (
@@ -27,16 +46,20 @@ export class Register extends Component {
                         
                         <TextEdit
                         type="text"
-                        hint="Name"/>
+                        hint="Name"
+                        getValue ={this.getName}/>
                         <TextEdit
                         type="text"
-                        hint="Username"/>
+                        hint="Username"
+                        getValue={this.getUsername}/>
                         <TextEdit
                         type="password"
-                        hint="Password"/>
+                        hint="Password"
+                        getValue={this.getPassword}/>
                         <TextEdit
                         type="password"
-                        hint="Retype your Password "/>
+                        hint="Retype your Password "
+                        getValue={this.getRetryPassword}/>
 
                     </div>
                     
