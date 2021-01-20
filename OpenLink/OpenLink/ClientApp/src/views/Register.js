@@ -1,5 +1,7 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { TextEdit } from '../components/TextEdit';
+import {CONSTANTS} from '../services/constants'
 
 export class Register extends Component {
 
@@ -35,6 +37,18 @@ export class Register extends Component {
         this.setState({name:e},
             function() {console.log("test name is "+ this.state.name)});
     }
+    sendData(){
+        const endPoint =CONSTANTS.MAINURL+'/profile/register';
+        axios.post(endPoint, {
+            username:this.state.username,
+            name:this.state.name,
+            password:this.state.password
+        }).then((response) =>{
+            console.log(response);
+        }, (error)=>{
+            console.log(error);
+        });
+    }
    
 
     render() {
@@ -66,7 +80,7 @@ export class Register extends Component {
             
                     
                
-                    <button className="button button-block">Register</button>
+                    <button className="button button-block" onClick={this.sendData}>Register</button>
                 </form>
             </div>
         );

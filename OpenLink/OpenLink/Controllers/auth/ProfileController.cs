@@ -53,7 +53,7 @@ namespace OpenLink.Controllers.auth
                 
 
                 profileModel.ID = Guid.NewGuid();
-                _context.ProfileModel.Add(profileModel);
+                
                 Account newAccount = new Account
                 {
                     ID = Guid.NewGuid(),
@@ -61,6 +61,7 @@ namespace OpenLink.Controllers.auth
                     Password = profileModel.Password,
                     RegisterID = profileModel.ID
                 };
+                _context.ProfileModel.Add(profileModel);
                 _context.Account.Add(newAccount);
 
                 _context.SaveChangesAsync();
@@ -69,12 +70,50 @@ namespace OpenLink.Controllers.auth
 
             }catch(Exception e)
             {
-                return new ResponseObject(false, false);
+                return new ResponseObject(e, false);
             }
         }
 
-       
+        // GET: get all acounts
+        [HttpGet("profile/getAll")]
+        public ResponseObject GetAll()
 
-        
+        {
+            if (!_context.ProfileModel.Any())
+            {
+                return new ResponseObject(null, false);
+            }
+            else
+            {
+                return new ResponseObject(_context.ProfileModel.ToList(), true);
+            }
+
+
+        }
+        [HttpGet("profile/delete/{id}")]
+        public ResponseObject Delete(Guid id)
+        {
+            try
+            {
+
+                ProfileModel profile  = _context.ProfileModel
+                    .Where(s => s.ID == id)
+                    .FirstOrDefault();
+
+                _context.Entry(profile).State = EntityState.Deleted;
+                _context.SaveChanges();
+
+
+                return new ResponseObject("deleted", true);
+
+            }
+            catch (Exception e)
+            {
+                return new ResponseObject(e, false);
+            }
+        }
+
+
+
     }
 }
