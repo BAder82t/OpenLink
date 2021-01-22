@@ -61,8 +61,10 @@ namespace OpenLink.Controllers.auth
                     Password = profileModel.Password,
                     RegisterID = profileModel.ID
                 };
-                _context.ProfileModel.Add(profileModel);
-                _context.Account.Add(newAccount);
+                //_context.ProfileModel.Add(profileModel);
+                _context.Entry(profileModel).State = EntityState.Added;
+                //_context.Account.Add(newAccount);
+                _context.Entry(profileModel).State = EntityState.Added;
 
                 _context.SaveChangesAsync();
 
