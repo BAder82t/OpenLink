@@ -28,10 +28,10 @@ export class LoginPage extends Component {
         
     }
     getUsername(event){
-        this.setState({username:event.target.value});
+        this.setState({username:event});
     }
     getPassword(event){
-        this.setState({password:event.target.value});
+        this.setState({password:event});
     }
  
 

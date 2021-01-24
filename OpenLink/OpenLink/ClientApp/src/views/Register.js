@@ -22,8 +22,13 @@ export class Register extends Component {
         this.getRetryPassword = this.getRetryPassword.bind(this);
         this.getUsername = this.getUsername.bind(this);
         this.getPassword = this.getPassword.bind(this);
+        this.sendData =this.sendData.bind(this);
 
     }
+
+
+
+
     getPassword(e){
         this.setState({password:e});
     }
@@ -34,19 +39,34 @@ export class Register extends Component {
         this.setState({username:e});
     }
     getName(e){
-        this.setState({name:e},
-            function() {console.log("test name is "+ this.state.name)});
+        this.setState({name:e});
     }
-    sendData(){
-        const endPoint =CONSTANTS.MAINURL+'/profile/register';
-        axios.post(endPoint, {
-            username:this.state.username,
-            name:this.state.name,
+    sendData(e){
+        e.preventDefault();
+       
+        const endPoint = CONSTANTS.MAINURL+'/profile/register';
+
+        var bodyData =JSON.stringify({ 
+            username: this.state.username,
+            name: this.state.name,
             password:this.state.password
-        }).then((response) =>{
+         });
+       
+        axios({
+            method:'POST',
+            url:endPoint,
+            data:bodyData,
+            headers: {
+                
+                'Content-Type': 'application/json'
+              }
+           
+        }).then(function (response){
+             //handle success
+        console.log(response);
+        }).catch(function (response) {
+            //handle error
             console.log(response);
-        }, (error)=>{
-            console.log(error);
         });
     }
    
