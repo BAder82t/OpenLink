@@ -4,6 +4,7 @@
 $body-bg: #a2bcc4;
 $form-bg: #13232f;
 $white: #ffffff;
+$red: #cc0033;
 
 $main: #1ab188;
 $main-light: lighten($main,5%);
@@ -163,4 +164,13 @@ label.highlight {
     font-weight:$thin;
     margin:0 0 20px;
   }
+.errorMessage {
+    text-align: left;
+    color: $red;
+    font-weight: $thin;
+    font-size: 12px;
+    display: inline-block;
+    line-height: 15px;
+    margin: 10px 10px 0;
+}
   

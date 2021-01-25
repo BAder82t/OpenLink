@@ -7,11 +7,17 @@ import '../views/MainStyle.scss';
 export class TextEdit extends Component {
     constructor(props) {
         super(props);
+        
+       
+
         this.state={
             isActive : false,
-            value:''
+            value:'',
+            errorMessage:'',
+            isError:false
         }
         this.update = this.update.bind(this);
+
         
     }
 
@@ -30,6 +36,20 @@ export class TextEdit extends Component {
         
     }
     
+    showErrorMessage(message){
+        this.setState({
+            isError:true,
+            errorMessage:message
+        })
+        
+    }
+    removeError(){
+        this.setState({
+            isError:false,
+            errorMessage:''
+        })
+    }
+    
     
     
         
@@ -38,18 +58,24 @@ export class TextEdit extends Component {
     return (
       <div>
           <div className="field-wrap">
-                            {
-                                this.state.isActive ?
-                                    null : <label> {this.props.hint}<span className="req">*</span> </label>
-                            }
-                        
-                        <input
-                            type={this.props.type}
-                            
-                            onChange={this.update}
-                            />
-                        </div>
+                {
+                    this.state.isActive ?
+                        null : <label> {this.props.hint}<span className="req">*</span> </label>
+                }
+            
+                <input
+                    type={this.props.type}
+                    
+                    onChange={this.update}
+                    />
+                <div>
+                    {this.state.isError ? <p className="errorMessage">{this.state.errorMessage}</p> : null}
+                </div>
+            </div>
+            
       </div>
+     
+
     );
   }
 }
