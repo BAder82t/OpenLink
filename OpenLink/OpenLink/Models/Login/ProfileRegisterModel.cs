@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OpenLink.Models.Login
 {
-    public class ProfileModel
+    public class ProfileRegisterModel
     {
         [Required]
         public string Name { get; set; }

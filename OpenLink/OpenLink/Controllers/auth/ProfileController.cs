@@ -46,7 +46,7 @@ namespace OpenLink.Controllers.auth
         // POST: Profile/Register
 
         [HttpPost("profile/register")]
-        public ResponseObject Register(ProfileModel profileModel)
+        public ResponseObject Register(ProfileRegisterModel profileModel)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace OpenLink.Controllers.auth
                 //_context.ProfileModel.Add(profileModel);
                 _context.Entry(profileModel).State = EntityState.Added;
                 //_context.Account.Add(newAccount);
-                _context.Entry(profileModel).State = EntityState.Added;
+                _context.Entry(newAccount).State = EntityState.Added;
 
                 _context.SaveChangesAsync();
 
@@ -98,7 +98,7 @@ namespace OpenLink.Controllers.auth
             try
             {
 
-                ProfileModel profile  = _context.ProfileModel
+                ProfileRegisterModel profile  = _context.ProfileModel
                     .Where(s => s.ID == id)
                     .FirstOrDefault();
 

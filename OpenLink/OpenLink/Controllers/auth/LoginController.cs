@@ -57,23 +57,35 @@ namespace OpenLink.Controllers.auth
         
         [HttpPost("auth/login")]
 
-        public ActionResult<AccountResult> Login(Account account)
+        public ActionResult<ResponseObject> Login(Account account)
         {
             //check login info
 
             //account.ID = Guid.NewGuid().ToString();
-            _context.Add(account);
-            _context.SaveChanges();
+            //_context.Add(account);
+            //_context.SaveChanges();
+
+            Account validAccount = _context.Account.Where(x => x.Username == account.Username).FirstOrDefault();
+
+            if (validAccount == null)
+            {
+                return new ResponseObject("Account not found", false);
+            }else if (validAccount.Password != account.Password)
+            {
+                return new ResponseObject("Password is Incorrect", false);
+            }
 
             String accesstoken = new TokenGenerator().GenerateToken(account.ID);
             string refreshtoken = new TokenGenerator().GenerateRefreshToken();
 
-            return new AccountResult
+            AccountResult accountResult= new AccountResult
             {
                 IsValid=true,
                 AccessToken =accesstoken,
                 RefreshToken=refreshtoken
             };
+
+            return new ResponseObject(accountResult, true);
 
         }
 
