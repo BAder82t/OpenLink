@@ -15,6 +15,10 @@ export class NavMenu extends Component {
     };
   }
 
+  
+
+  
+
   toggleNavbar () {
     this.setState({
       collapsed: !this.state.collapsed
@@ -22,6 +26,8 @@ export class NavMenu extends Component {
   }
 
   render () {
+    console.log("navigation is loggedIn: "+this.props.isLoggedIn);
+    
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
@@ -30,10 +36,12 @@ export class NavMenu extends Component {
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
-                
+                {this.props.isLoggedIn ? null :
+
                 <NavItem>
                     <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
-                            </NavItem>
+                </NavItem>
+                }
                
               </ul>
             </Collapse>

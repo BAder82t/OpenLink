@@ -5,11 +5,19 @@ import { NavMenu } from './NavMenu';
 export class Layout extends Component {
   static displayName = Layout.name;
 
+  constructor(props) {
+    super(props);
+
+}
+
+ 
+  
   render () {
+    console.log("layout is loggedIn: "+this.props.isLoggedIn);
     return (
       <div>
-        <NavMenu />
-        <Container>
+        <NavMenu isLoggedIn={this.props.isLoggedIn}/>
+        <Container >
                 {this.props.children}
 
         </Container>

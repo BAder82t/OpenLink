@@ -13,13 +13,39 @@ import { Register } from './views/Register';
 export default class App extends Component {
   static displayName = App.name;
 
+  constructor(props) {
+    super(props);
+    this.state={
+      isLoggedIn:false
+    }
+    this.loggedIn= this.loggedIn.bind(this);
+
+}
+
+  loggedIn(x){
+
+    if(x){
+      this.setState({
+        isLoggedIn:true
+      },()=>{
+        console.log("IsLoggedIn Tru");
+      });
+    }else{
+      this.setState({
+        isLoggedIn:false
+      });
+    }
+  }
+
   render () {
+    console.log("App render");
     return (
-      <Layout>
+      <Layout isLoggedIn={this.state.isLoggedIn}>
             <Route exact path='/' component={Dashboard} />
             <Route path='/fetch-data' component={FetchData} />
             <Route path='/fetch-data-axios' component={FetchDataAxios} />
-            <Route path='/login' component={LoginPage} />
+            {this.isLoggedIn ? null: <Route path='/login' component={() => <LoginPage loggedIn={this.loggedIn} />} />}
+            
             <Route path='/home' component={Home} />
             <Route path='/register' component={Register} />
       </Layout>
