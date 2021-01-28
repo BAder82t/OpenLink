@@ -75,14 +75,15 @@ namespace OpenLink.Controllers.auth
                 return new ResponseObject("Password is Incorrect", false);
             }
 
-            String accesstoken = new TokenGenerator().GenerateToken(account.ID);
+            String accesstoken = new TokenGenerator().GenerateToken(validAccount.ID);
             string refreshtoken = new TokenGenerator().GenerateRefreshToken();
 
-            AccountResult accountResult= new AccountResult
+            AccountResult accountResult = new AccountResult
             {
-                IsValid=true,
-                AccessToken =accesstoken,
-                RefreshToken=refreshtoken
+                IsValid = true,
+                AccessToken = accesstoken,
+                RefreshToken = refreshtoken,
+                ID = Guid.NewGuid()
             };
 
             return new ResponseObject(accountResult, true);

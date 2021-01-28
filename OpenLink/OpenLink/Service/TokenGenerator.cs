@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -6,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OpenLink.Service
@@ -17,7 +20,7 @@ namespace OpenLink.Service
 			var mySecret = "asdv234234^>/*^%&68xgsfb2%%%";
 			var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(mySecret));
 
-			var myIssuer = "http://openlink.com";
+			var myIssuer = "http://openlinktest.com";
 			var myAudience = "http://openlinkaudience.com";
 
 			var tokenHandler = new JwtSecurityTokenHandler();
@@ -42,7 +45,7 @@ namespace OpenLink.Service
 			var mySecret = "asdv234234^>/*^%&68xgsfb2%%%";
 			var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(mySecret));
 
-			var myIssuer = "http://openlink.com";
+			var myIssuer = "http://openlinktest.com";
 			var myAudience = "http://openlinkaudience.com";
 			var tokenHandler = new JwtSecurityTokenHandler();
 			try
@@ -73,5 +76,35 @@ namespace OpenLink.Service
 				return Convert.ToBase64String(randomNumber);
 			}
 		}
+
+		public static JwtSecurityToken VerifyAndDecodeJwt(string accessToken)
+		{
+			try
+			{
+				var myIssuer = "http://openlinktest.com";
+				var myAudience = "http://openlinkaudience.com";
+				var mySecret = "asdv234234^>/*^%&68xgsfb2%%%";
+				var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(mySecret));
+				var tokenHandler = new JwtSecurityTokenHandler();
+				var validationParameters = new TokenValidationParameters()
+				{
+					ValidateIssuerSigningKey = true,
+					ValidateIssuer = true,
+					ValidateAudience = true,
+					ValidIssuer = myIssuer,
+					ValidAudience = myAudience,
+					IssuerSigningKey = mySecurityKey
+				};
+				new JwtSecurityTokenHandler().ValidateToken(accessToken, validationParameters, out var validToken);
+				// threw on invalid, so...
+				return validToken as JwtSecurityToken;
+			}
+			catch (Exception ex)
+			{
+				
+				return null;
+			}
+		}
+
 	}
 }

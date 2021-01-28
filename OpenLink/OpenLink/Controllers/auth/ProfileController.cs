@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OpenLink.Data;
 using OpenLink.Models;
 using OpenLink.Models.Login;
+using OpenLink.Service;
 
 namespace OpenLink.Controllers.auth
 {
@@ -15,6 +21,7 @@ namespace OpenLink.Controllers.auth
     public class ProfileController : Controller
     {
         private readonly OpenLinkContext _context;
+        
 
         public ProfileController(OpenLinkContext context)
         {
@@ -23,27 +30,7 @@ namespace OpenLink.Controllers.auth
 
 
 
-        //// GET: Profile/Details/5
-        //public  async Task<ProfileModel> Details(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return null;
-        //    }
 
-        //    var profileModel = await  _context.ProfileModel
-        //        .FirstOrDefaultAsync(m => m.ID == id);
-        //    if (profileModel == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    return profileModel;
-        //}
-
-        
-
-        // POST: Profile/Register
 
         [HttpPost("profile/register")]
         public ResponseObject Register(ProfileRegisterModel profileModel)
@@ -115,7 +102,21 @@ namespace OpenLink.Controllers.auth
             }
         }
 
+        [HttpGet("profile")]
+        public  ResponseObject GetProfile()
+        {
+            var header = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
+            var credentials = header.Parameter;
+            JwtSecurityToken token = TokenGenerator.VerifyAndDecodeJwt(credentials);
 
 
+            var claim = token.Claims;
+            var list = claim.ToList();
+            var idclaim = list?.FirstOrDefault(x => x.Type.Equals("nameid", StringComparison.OrdinalIgnoreCase))?.Value;
+            Guid id = Guid.Parse(idclaim);
+            return null;
+
+        }
+       
     }
 }

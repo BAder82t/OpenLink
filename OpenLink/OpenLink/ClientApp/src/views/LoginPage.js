@@ -36,7 +36,7 @@ export class LoginPage extends Component {
         this.getUsername = this.getUsername.bind(this);
         this.redirect=this.redirect.bind(this);
     }
-    redirect(){
+    redirect(access,refresh){
       
         this.setState({
             redirectDashboard:true
@@ -95,11 +95,12 @@ export class LoginPage extends Component {
 
                     localStorage.setItem('accessToken', accessToken);
                     localStorage.setItem('refreshToken',refreshToken);
+                    self.redirect(accessToken,refreshToken);
                 }
 
             console.log(response);
             
-            self.redirect();
+            
             
             }).catch(function (error) {
                 //handle error

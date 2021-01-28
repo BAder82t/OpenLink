@@ -16,25 +16,25 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state={
-      isLoggedIn:false
+      isLoggedIn:false,
+      accessToken:'',
+      refreshToken:''
     }
     this.loggedIn= this.loggedIn.bind(this);
 
 }
 
-  loggedIn(x){
+  loggedIn(_accessToken,_refreshToken){
 
-    if(x){
+   
       this.setState({
-        isLoggedIn:true
+        isLoggedIn:true,
+        accessToken:_accessToken,
+        refreshToken:_refreshToken
       },()=>{
         console.log("IsLoggedIn Tru");
       });
-    }else{
-      this.setState({
-        isLoggedIn:false
-      });
-    }
+    
   }
 
   render () {
