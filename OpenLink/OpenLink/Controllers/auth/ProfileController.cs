@@ -33,27 +33,37 @@ namespace OpenLink.Controllers.auth
 
 
         [HttpPost("profile/register")]
-        public ResponseObject Register(ProfileRegisterModel profileModel)
+        public async  Task<ResponseObject> Register(ProfileRegisterModel profileModel)
         {
             try
             {
-                
-
-                profileModel.ID = Guid.NewGuid();
-                
-                Account newAccount = new Account
+                var exists = _context.Account.Any(x => x.Username == profileModel.Username);
+                if (exists)
+                {
+                    return new ResponseObject("This username already exists",false);
+                }
+                ProfileModel profileToSave = new ProfileModel
                 {
                     ID = Guid.NewGuid(),
                     Username = profileModel.Username,
+                    Name = profileModel.Name
+
+
+
+                };
+                Account newAccount = new Account
+                {
+                    ID = Guid.NewGuid(),
+                    Username = profileToSave.Username,
                     Password = profileModel.Password,
-                    RegisterID = profileModel.ID
+                    RegisterID = profileToSave.ID
                 };
                 //_context.ProfileModel.Add(profileModel);
-                _context.Entry(profileModel).State = EntityState.Added;
+                _context.Entry(profileToSave).State = EntityState.Added;
                 //_context.Account.Add(newAccount);
                 _context.Entry(newAccount).State = EntityState.Added;
 
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
                 return new ResponseObject(true, true);
 
@@ -85,7 +95,7 @@ namespace OpenLink.Controllers.auth
             try
             {
 
-                ProfileRegisterModel profile  = _context.ProfileModel
+                ProfileModel profile  = _context.ProfileModel
                     .Where(s => s.ID == id)
                     .FirstOrDefault();
 
@@ -105,16 +115,20 @@ namespace OpenLink.Controllers.auth
         [HttpGet("profile")]
         public  ResponseObject GetProfile()
         {
-            var header = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
-            var credentials = header.Parameter;
-            JwtSecurityToken token = TokenGenerator.VerifyAndDecodeJwt(credentials);
+            try
+            {
+                Guid id = TokenGenerator.ValidateToken(this);
 
+                Account validAccount = _context.Account.Where(x => x.ID == id).FirstOrDefault();
+                Guid profileID = validAccount.RegisterID;
+                ProfileModel profile = _context.ProfileModel.Where(p => p.ID == profileID).FirstOrDefault();
 
-            var claim = token.Claims;
-            var list = claim.ToList();
-            var idclaim = list?.FirstOrDefault(x => x.Type.Equals("nameid", StringComparison.OrdinalIgnoreCase))?.Value;
-            Guid id = Guid.Parse(idclaim);
-            return null;
+                return new ResponseObject(profile, true);
+            }catch(Exception e)
+            {
+                return new ResponseObject(e, false);
+            }
+            
 
         }
        

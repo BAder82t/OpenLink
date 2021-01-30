@@ -10,8 +10,8 @@ using OpenLink.Data;
 namespace OpenLink.Migrations
 {
     [DbContext(typeof(OpenLinkContext))]
-    [Migration("20210122012634_azure1")]
-    partial class azure1
+    [Migration("20210129045647_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,15 +105,9 @@ namespace OpenLink.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");

@@ -16,7 +16,7 @@ export class Layout extends Component {
     console.log("layout is loggedIn: "+this.props.isLoggedIn);
     return (
       <div>
-        <NavMenu isLoggedIn={this.props.isLoggedIn}/>
+        <NavMenu isLoggedIn={this.props.isLoggedIn} getName={this.props.getName}/>
         <Container >
                 {this.props.children}
 

@@ -36,8 +36,11 @@ export class NavMenu extends Component {
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
-                {this.props.isLoggedIn ? null :
-
+                {this.props.isLoggedIn ? 
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/account">{this.props.getName}</NavLink>
+                </NavItem> 
+                :
                 <NavItem>
                     <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
                 </NavItem>

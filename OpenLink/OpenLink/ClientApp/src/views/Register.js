@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 import { TextEdit } from '../components/TextEdit';
-import {CONSTANTS} from '../services/constants'
+import { register } from '../services/APIService';
+import { Redirect } from 'react-router'
 
 export class Register extends Component {
 
@@ -21,7 +21,8 @@ export class Register extends Component {
             name:'',
             username:'',
             password:'',
-            retypePassword:''
+            retypePassword:'',
+            redirectDashboard:false
 
         }
         this.getName = this.getName.bind(this);
@@ -29,11 +30,24 @@ export class Register extends Component {
         this.getUsername = this.getUsername.bind(this);
         this.getPassword = this.getPassword.bind(this);
         this.sendData =this.sendData.bind(this);
-
+        this.redirect = this.redirect.bind(this);
        
     }
 
+    redirect(valid,access,refresh){
+        if(valid){
 
+            this.setState({
+                redirectDashboard:true
+            },() =>{
+                
+                this.props.loggedIn(access,refresh);
+            });
+        }else{
+            
+                this.retypePasswordRef.current.showErrorMessage(access);   
+        }
+    }
     
 
     getPassword(e){
@@ -64,31 +78,8 @@ export class Register extends Component {
             this.passwordRef.current.showErrorMessage("Your password should contain more than 7 characters");  
         }else if(this.state.password=== this.state.retypePassword){
            
+            register(this.state.name,this.state.username,this.state.password,this.redirect);
         
-            const endPoint = CONSTANTS.MAINURL+'/profile/register';
-
-            var bodyData =JSON.stringify({ 
-                username: this.state.username,
-                name: this.state.name,
-                password:this.state.password
-            });
-        
-            axios({
-                method:'POST',
-                url:endPoint,
-                data:bodyData,
-                headers: {
-                    
-                    'Content-Type': 'application/json'
-                }
-            
-            }).then(function (response){
-                //handle success
-            console.log(response);
-            }).catch(function (response) {
-                //handle error
-                console.log(response);
-            });
         }else{
                 this.retypePasswordRef.current.showErrorMessage("This does not match your password");
         }
@@ -98,6 +89,10 @@ export class Register extends Component {
    
 
     render() {
+        if(this.state.redirectDashboard){
+          
+            return <Redirect to='/'/>;
+        }
         
         return (
             <div className="form">

@@ -1,10 +1,9 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { TextEdit } from '../components/TextEdit';
 import './MainStyle.scss';
-import {CONSTANTS} from '../services/constants';
 import { Redirect } from 'react-router'
+import { loginAPI } from '../services/APIService';
 
 
 
@@ -36,14 +35,25 @@ export class LoginPage extends Component {
         this.getUsername = this.getUsername.bind(this);
         this.redirect=this.redirect.bind(this);
     }
-    redirect(access,refresh){
+
+
+    redirect(valid, access,refresh){
+        if(valid){
+            this.setState({
+                redirectDashboard:true
+            },() =>{
+                
+                this.props.loggedIn(access,refresh);
+            });
+        }else{
+            
+                this.passwordRef.current.showErrorMessage(access);   
+        }
       
-        this.setState({
-            redirectDashboard:true
-        },() =>{
-            this.props.loggedIn(true);
-        });
+        
     }
+  
+    
 
     
 
@@ -71,52 +81,10 @@ export class LoginPage extends Component {
             this.passwordRef.current.showErrorMessage("Your password should contain more than 7 characters");  
         }
         if(validPassword && validUsername){
-            const endPoint = CONSTANTS.MAINURL+'/auth/login';
+         
 
-            var bodyData =JSON.stringify({ 
-                username: this.state.username,
-                password:this.state.password
-            });
-            axios({
-                method:'POST',
-                url: endPoint,
-                data:bodyData,
-                headers: {
-                    
-                    'Content-Type': 'application/json'
-                }
-            }).then(function (response){
-                //handle success
-                if(response.data.validObject!=null){
-                    var accessToken = (response.data.validObject.accessToken);
-                    console.log("accesstoken :"+accessToken);
-                    var refreshToken = (response.data.validObject.refreshToken);
-                    console.log("refreshToken :"+refreshToken);
+            loginAPI(this.state.username,this.state.password,self.redirect);
 
-                    localStorage.setItem('accessToken', accessToken);
-                    localStorage.setItem('refreshToken',refreshToken);
-                    self.redirect(accessToken,refreshToken);
-                }
-
-            console.log(response);
-            
-            
-            
-            }).catch(function (error) {
-                //handle error
-                if (error.response) {
-                    // Request made and server responded
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                  } else if (error.request) {
-                    // The request was made but no response was received
-                    console.log(error.request);
-                  } else if(error.message){
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error', error.message);
-                  }
-            });;
         }
         
     }

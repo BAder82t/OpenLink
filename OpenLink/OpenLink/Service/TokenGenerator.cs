@@ -1,10 +1,12 @@
-﻿using Microsoft.IdentityModel.Protocols;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -104,6 +106,21 @@ namespace OpenLink.Service
 				
 				return null;
 			}
+		}
+
+		public static Guid ValidateToken(ControllerBase request)
+        {
+            
+			var header = AuthenticationHeaderValue.Parse(request.Request.Headers["Authorization"]);
+			var credentials = header.Parameter;
+			JwtSecurityToken token = TokenGenerator.VerifyAndDecodeJwt(credentials);
+
+
+			var claim = token.Claims;
+			var list = claim.ToList();
+			var idclaim = list?.FirstOrDefault(x => x.Type.Equals("nameid", StringComparison.OrdinalIgnoreCase))?.Value;
+			Guid id = Guid.Parse(idclaim);
+			return id;
 		}
 
 	}
