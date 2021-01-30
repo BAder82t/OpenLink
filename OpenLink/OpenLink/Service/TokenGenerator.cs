@@ -2,6 +2,8 @@
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using OpenLink.Interfaces;
+using OpenLink.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -108,10 +110,15 @@ namespace OpenLink.Service
 			}
 		}
 
-		public static Guid ValidateToken(ControllerBase request)
+		public static ResponseObject ValidateToken(ControllerBase request)
         {
             
 			var header = AuthenticationHeaderValue.Parse(request.Request.Headers["Authorization"]);
+            if (header == null)
+            {
+				
+				return new ResponseObject(null, false);
+            }
 			var credentials = header.Parameter;
 			JwtSecurityToken token = TokenGenerator.VerifyAndDecodeJwt(credentials);
 
@@ -120,7 +127,7 @@ namespace OpenLink.Service
 			var list = claim.ToList();
 			var idclaim = list?.FirstOrDefault(x => x.Type.Equals("nameid", StringComparison.OrdinalIgnoreCase))?.Value;
 			Guid id = Guid.Parse(idclaim);
-			return id;
+			return new ResponseObject(id,true);
 		}
 
 	}

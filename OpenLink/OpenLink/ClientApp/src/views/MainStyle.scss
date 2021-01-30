@@ -41,6 +41,14 @@ body {
     border-radius: $br;
     box-shadow: 0 4px 10px 4px rgba($form-bg,.3);
 }
+.profile_form {
+    background: rgba($form-bg,.9);
+    padding: 50px;
+    max-width: 100%;
+    margin: 40px auto;
+    border-radius: $br;
+    box-shadow: 0 4px 10px 4px rgba($form-bg,.3);
+}
 .button {
     border: 0;
     outline: none;
@@ -172,5 +180,17 @@ label.highlight {
     display: inline-block;
     line-height: 15px;
     margin: 10px 10px 0;
+}
+.profile_name{
+    text-align: left;
+    color:$white;
+    font-weight: $thin;
+    margin: 0 0 20px;
+}
+.profile_username{
+    text-align: left;
+    color:$white;
+    font-weight: $thin;
+    margin: 0 0 20px;
 }
   

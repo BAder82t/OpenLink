@@ -83,3 +83,36 @@ export function register(name,username,password,callback){
         console.log(response);
     });
 }
+
+export function profile(token,callback){
+    const endPoint = CONSTANTS.MAINURL+'/profile';
+    console.log("Profile token  "+token);
+        
+        axios({
+          method:'GET',
+          url:endPoint,
+          headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        }
+
+        }).then(function (response){
+        console.log("Profile Response" + response.data.validObject.name);
+         callback(response.data)
+
+        }).catch(function (error) {
+            //handle error
+            if (error.response) {
+                // Request made and server responded
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+              } else if(error.message){
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+        });
+}

@@ -9,9 +9,11 @@ namespace OpenLink.Models
     {
         public Object ValidObject { get; set; }
         public Object InvalidObject { get; set; }
+        public Boolean Valid { get; set; }
 
         public ResponseObject(Object o, Boolean b)
         {
+            Valid = b;
             if (b)
             {
                 ValidObject = o;

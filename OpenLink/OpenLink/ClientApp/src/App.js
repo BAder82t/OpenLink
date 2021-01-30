@@ -9,8 +9,7 @@ import { LoginPage } from './views/LoginPage';
 import { Dashboard } from './views/Dashboard';
 import { Register } from './views/Register';
 import { Account } from './views/Account';
-import axios from 'axios';
-import {CONSTANTS} from './services/Constants';
+import { profile } from './services/APIService';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -24,9 +23,18 @@ export default class App extends Component {
       name:''
     }
     this.loggedIn= this.loggedIn.bind(this);
+    this.getProfile = this.getProfile.bind(this);
     
 
 }
+
+  getProfile(response){
+    this.setState({
+      isLoggedIn:true,
+      name:response.validObject.name
+      
+    });
+  }
 
   loggedIn(_accessToken,_refreshToken){
     console.log("login " +_accessToken);
@@ -36,27 +44,9 @@ export default class App extends Component {
         accessToken:_accessToken,
         refreshToken:_refreshToken
       },()=>{
-        const endPoint = CONSTANTS.MAINURL+'/profile';
-        console.log(self.state.accessToken);
-        axios({
-          method:'GET',
-          url:endPoint,
-          headers: {
-            'Authorization': self.state.accessToken,
-            'Content-Type': 'application/json'
-        }
 
-        }).then(function (response){
-
-          self.setState({
-            isLoggedIn:true,
-            name:response.data.validObject.name
-            
-          }, ()=>{
-            console.log(response.data.validObject.name);
-          });
-
-        });
+        profile(_accessToken,this.getProfile);
+       
       });
     
   }
@@ -73,7 +63,7 @@ export default class App extends Component {
             <Route path='/fetch-data-axios' component={FetchDataAxios} />
             
             
-            <Route path='/account' component={Account}/>
+            <Route path='/account' component={()=><Account token={this.state.accessToken}/>}/>
             
             {
             this.isLoggedIn ? 

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OpenLink.Data;
+using OpenLink.Interfaces;
 using OpenLink.Models;
 using OpenLink.Models.Login;
 using OpenLink.Service;
@@ -117,8 +118,17 @@ namespace OpenLink.Controllers.auth
         {
             try
             {
-                Guid id = TokenGenerator.ValidateToken(this);
 
+               
+
+
+                ResponseObject obj = TokenGenerator.ValidateToken(this);
+
+                if (!obj.Valid)
+                {
+                    return new ResponseObject("An error Occured", false);
+                }
+                Guid id = (Guid)obj.ValidObject;
                 Account validAccount = _context.Account.Where(x => x.ID == id).FirstOrDefault();
                 Guid profileID = validAccount.RegisterID;
                 ProfileModel profile = _context.ProfileModel.Where(p => p.ID == profileID).FirstOrDefault();
