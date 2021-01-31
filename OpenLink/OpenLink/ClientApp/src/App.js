@@ -7,6 +7,7 @@ import { FetchDataAxios } from './components/FetchDataAxios';
 import './custom.css'
 import { LoginPage } from './views/LoginPage';
 import { Dashboard } from './views/Dashboard';
+import { CreateAPI } from './views/CreateAPI'
 import { Register } from './views/Register';
 import { Account } from './views/Account';
 import { profile } from './services/APIService';
@@ -46,6 +47,8 @@ export default class App extends Component {
       },()=>{
 
         profile(_accessToken,this.getProfile);
+        localStorage.setItem('accessToken', _accessToken);
+        localStorage.setItem('refreshToken',_refreshToken);
        
       });
     
@@ -53,16 +56,32 @@ export default class App extends Component {
 
 
   render () {
+    const storedToken =localStorage.getItem('accessToken');
+
+
+    if(!this.state.isLoggedIn && storedToken!=null){
+      if(storedToken.length>0){
+        this.setState({
+          isLoggedIn:true,
+          accessToken:localStorage.getItem('accessToken'),
+          refreshToken:localStorage.getItem('refreshToken')
+          
+        }, ()=> {
+          profile(this.state.accessToken,this.getProfile);
+        });
+      }
+      
+
+    }
    
     console.log("isLogged in  "+ this.state.isLoggedIn);
 
     return (
       <Layout isLoggedIn={this.state.isLoggedIn} getName={this.state.name}>
             <Route exact path='/' component={Dashboard} />
-            <Route path='/fetch-data' component={FetchData} />
-            <Route path='/fetch-data-axios' component={FetchDataAxios} />
             
             
+            <Route path="/createAPI" component={CreateAPI}/>
             <Route path='/account' component={()=><Account token={this.state.accessToken}/>}/>
             
             {

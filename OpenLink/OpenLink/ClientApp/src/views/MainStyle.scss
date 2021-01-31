@@ -50,8 +50,11 @@ body {
     box-shadow: 0 4px 10px 4px rgba($form-bg,.3);
 }
 .button {
+    display: inline-block;
     border: 0;
     outline: none;
+    position: relative;
+    overflow: hidden;
     border-radius: 20px;
     padding:15px 0;
     font-size: 2rem;
@@ -60,12 +63,43 @@ body {
     letter-spacing: .1em;
     background: $main;
     color: $white;
+    z-index: 1;
+    transition: all .3s;
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+        background-color: $main;
+        z-index: -2;
+      }
+      &:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;    
+        border-radius: 20px;
+        width: 0%;
+        height: 100%;
+        background-color: darken($main, 15%);
+        transition: all .3s;
+        z-index: -1;
+      }
+      &:hover {
+        color: #fff;
+        &:before {
+          width: 100%;
+        }
 
-
+    }
 }
 
 .button-block {
     display: block;
+    
     width: 100%;
 }
 input, textarea {
@@ -186,11 +220,82 @@ label.highlight {
     color:$white;
     font-weight: $thin;
     margin: 0 0 20px;
+    position: relative;
+}
+.profile_center{
+    text-align: center;
+    border: 0;
+    left:50%;
+    margin: -100px 0 0 -150px;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    padding:20px;
+    font-size: 15px;
+    font-weight: $bold;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: $main;
+    color: $white;
+    z-index: 1;
+    transition: all .3s;
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 20px;
+        height: 100%;
+        background-color: $main;
+        z-index: -2;
+      }
+      &:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-radius: 20px;
+
+        width: 0%;
+        height: 100%;
+        background-color: darken($main, 15%);
+        transition: all .3s;
+        z-index: -1;
+      }
+      &:hover {
+        color: #fff;
+        &:before {
+          width: 100%;
+        }
+
+    }
+   
 }
 .profile_username{
+    position: relative;
     text-align: left;
     color:$white;
     font-weight: $thin;
     margin: 0 0 20px;
 }
+.container{
+    
+    display: grid;
+    width: 100%;
+}
+.left-half {
+    
+    position: relative;
+    grid-column: 1;
+
+  }
+  
+  .right-half {
+    
+    position: relative;
+    grid-column: 2;
+
+  }
   

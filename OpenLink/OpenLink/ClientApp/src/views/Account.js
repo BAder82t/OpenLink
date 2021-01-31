@@ -1,58 +1,46 @@
 import React, { Component } from 'react';
-import { profile } from '../services/APIService';
+import { Profile } from '../components/Profile';
 import './MainStyle.scss';
+import { Redirect } from 'react-router'
 
 
 export class Account extends Component {
     constructor(props) {
         super(props);
         this.state ={
-            profileModel:null,
-            loading:true
+            creatAPI:false
         }
-        this.getProfile = this.getProfile.bind(this);
-    }
-
-    getProfile(response){
-        const  data = response.validObject;
-        console.log("profile getProfile"+ data.name);
         
+        
+    }
+
+    
+
+    createPage = () => {
+        console.log("goto craeet aPI"+ this.state.creatAPI);
         this.setState({
-            profileModel:response.validObject,
-            loading:false
+            creatAPI: true
         });
-
-    }
-
-    componentDidMount(){
-        profile(this.props.token,this.getProfile);
-    }
-
-    static renderProfileComponent(profileModel){
-        return(
-            <div className="profile_form">
-
-                <form>
-                    <div>
-                        <p className="profile_name">Hello, {profileModel.name}</p>
-                        <p className="profile_username">Username: {profileModel.username}</p>
-                    </div>
-                </form>
-
-            </div>
-        );
     }
 
     render() {
-        if(this.state.loading){
-            return (
-                <div>
-                <h3>Loading...</h3>
-             </div>
-            );
+        if (this.state.creatAPI) {
+            return <Redirect to='/createAPI' />
         }else{
-            return Account.renderProfileComponent(this.state.profileModel);
+            return(
+                    <div>
+                    
+                        <Profile token ={this.props.token} />
+                        <div className="button-block">
+                                <button 
+                                    className="profile_center" 
+                                    onClick={this.createPage}> 
+                                Share an API service</button>
+                        </div>
+                    </div>
+            );
         }
         
     }
+
 }

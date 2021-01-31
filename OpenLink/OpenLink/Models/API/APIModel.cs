@@ -15,8 +15,10 @@ namespace OpenLink.Models
         public string Description { get; set; }
         [Required]
         public List<Link> Links { get; set; }
-        [Required]
+        
         public Guid UserID { get; set; }
+        
+        public DateTime Date { get; set; }
 
     }
 }

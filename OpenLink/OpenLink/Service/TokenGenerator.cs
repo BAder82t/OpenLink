@@ -121,9 +121,14 @@ namespace OpenLink.Service
             }
 			var credentials = header.Parameter;
 			JwtSecurityToken token = TokenGenerator.VerifyAndDecodeJwt(credentials);
-
+			if(token== null)
+            {
+				return new ResponseObject(null, false);
+			
+			}
 
 			var claim = token.Claims;
+
 			var list = claim.ToList();
 			var idclaim = list?.FirstOrDefault(x => x.Type.Equals("nameid", StringComparison.OrdinalIgnoreCase))?.Value;
 			Guid id = Guid.Parse(idclaim);

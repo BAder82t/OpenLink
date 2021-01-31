@@ -25,8 +25,7 @@ export function loginAPI(username,password,callback){
             var refreshToken = (response.data.validObject.refreshToken);
             // console.log("refreshToken :"+refreshToken);
 
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken',refreshToken);
+            
             // self.redirect("Bearer "+accessToken,refreshToken);
             callback(true,"Bearer "+accessToken,refreshToken)
         }else if(response.data.invalidObject!=null){
