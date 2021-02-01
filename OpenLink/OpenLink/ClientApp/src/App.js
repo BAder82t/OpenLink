@@ -25,6 +25,7 @@ export default class App extends Component {
     }
     this.loggedIn= this.loggedIn.bind(this);
     this.getProfile = this.getProfile.bind(this);
+    this.logout = this.logout.bind(this);
     
 
 }
@@ -52,6 +53,15 @@ export default class App extends Component {
        
       });
     
+  }
+  logout(){
+    console.log("Logout")
+    localStorage.setItem('accessToken', '');
+    localStorage.setItem('refreshToken','');
+    this.setState({
+      isLoggedIn:false,
+      name:''
+    });
   }
 
 
@@ -82,7 +92,7 @@ export default class App extends Component {
             
             
             <Route path="/createAPI" component={CreateAPI}/>
-            <Route path='/account' component={()=><Account token={this.state.accessToken}/>}/>
+            <Route path='/account' component={()=><Account token={this.state.accessToken} logout={this.logout}/>}/>
             
             {
             this.isLoggedIn ? 

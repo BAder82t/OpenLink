@@ -38,22 +38,22 @@ namespace OpenLink.Controllers.auth
             return myAccount;
             
         }
-        // GET: get all acounts
-        [HttpGet("auth/loginall")]
-        public ResponseObject GetAll()
+        //// GET: get all acounts
+        //[HttpGet("auth/loginall")]
+        //public ResponseObject GetAll()
 
-        {
-            if (!_context.Account.Any())
-            {
-                return new ResponseObject(null,false);
-            }
-            else
-            {
-                return new ResponseObject(_context.Account.ToList(),true);
-            }
+        //{
+        //    if (!_context.Account.Any())
+        //    {
+        //        return new ResponseObject(null,false);
+        //    }
+        //    else
+        //    {
+        //        return new ResponseObject(_context.Account.ToList(),true);
+        //    }
             
 
-        }
+        //}
         
         [HttpPost("auth/login")]
 

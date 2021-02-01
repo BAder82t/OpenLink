@@ -74,22 +74,22 @@ namespace OpenLink.Controllers.auth
             }
         }
 
-        // GET: get all acounts
-        [HttpGet("profile/getAll")]
-        public ResponseObject GetAll()
+        //// GET: get all acounts
+        //[HttpGet("profile/getAll")]
+        //public ResponseObject GetAll()
 
-        {
-            if (!_context.ProfileModel.Any())
-            {
-                return new ResponseObject(null, false);
-            }
-            else
-            {
-                return new ResponseObject(_context.ProfileModel.ToList(), true);
-            }
+        //{
+        //    if (!_context.ProfileModel.Any())
+        //    {
+        //        return new ResponseObject(null, false);
+        //    }
+        //    else
+        //    {
+        //        return new ResponseObject(_context.ProfileModel.ToList(), true);
+        //    }
 
 
-        }
+        //}
         [HttpGet("profile/delete/{id}")]
         public ResponseObject Delete(Guid id)
         {
@@ -99,7 +99,9 @@ namespace OpenLink.Controllers.auth
                 ProfileModel profile  = _context.ProfileModel
                     .Where(s => s.ID == id)
                     .FirstOrDefault();
+                Account account = _context.Account.Where(s => s.RegisterID == id).FirstOrDefault();
 
+                _context.Entry(account).State = EntityState.Deleted;
                 _context.Entry(profile).State = EntityState.Deleted;
                 _context.SaveChanges();
 

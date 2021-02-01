@@ -30,7 +30,7 @@ export class Account extends Component {
             return(
                     <div>
                     
-                        <Profile token ={this.props.token} />
+                        <Profile token ={this.props.token} logout={this.props.logout} />
                         <div className="button-block">
                                 <button 
                                     className="profile_center" 

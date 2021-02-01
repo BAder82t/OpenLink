@@ -15,10 +15,10 @@ namespace OpenLink.Data
         {
         }
 
-        public DbSet<OpenLink.Models.Account> Account { get; set; }
+        public DbSet<Account> Account { get; set; }
 
-        public DbSet<OpenLink.Models.Login.ProfileModel> ProfileModel { get; set; }
-        public DbSet<OpenLink.Models.APIModel> APIModels { get; set; }
+        public DbSet<ProfileModel> ProfileModel { get; set; }
+        public DbSet<APIModel> APIModels { get; set; }
         public object HttpContext { get; internal set; }
     }
 }

@@ -85,6 +85,7 @@ export function register(name,username,password,callback){
 
 export function profile(token,callback){
     const endPoint = CONSTANTS.MAINURL+'/profile';
+    
     console.log("Profile token  "+token);
         
         axios({
