@@ -41,6 +41,14 @@ body {
     border-radius: $br;
     box-shadow: 0 4px 10px 4px rgba($form-bg,.3);
 }
+.big-form {
+    background: rgba($form-bg,.9);
+    padding: 50px;
+    max-width: 1000px;
+    margin: 40px auto;
+    border-radius: $br;
+    box-shadow: 0 4px 10px 4px rgba($form-bg,.3);
+}
 .profile_form {
     background: rgba($form-bg,.9);
     padding: 50px;
@@ -99,9 +107,9 @@ body {
 
 .button-block {
     display: block;
-    
     width: 100%;
 }
+
 input, textarea {
     font-size: 20px;
     display: block;
@@ -163,6 +171,12 @@ h2 {
     color: $white;
     font-weight: $thin;
     margin: 0 0 30px;
+}
+h3 {
+    
+    color: $white;
+    font-weight: $thin;
+    margin: 20px 0 30px;
 }
 
 label {
@@ -314,4 +328,80 @@ label.highlight {
     background: $main-light;
     color: $white;
   }
+  .scroll{
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+  .add-link{
+    text-align: center;
+    border: 0px;
+    left:50%;
+    margin: 0 20px 20px 0;
+    position: relative;
+    border-radius: 50px;
+    padding:20px;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: $main;
+    color: $white;
+   
+}
+.link{
+    text-align: center;
+    border: 0px;
+    margin: 0 20px 20px 0;
+    position: relative;
+    border-radius: 50px;
+    padding:20px;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: $main;
+    color: $white;
+   
+}
+.method{
+    flex: 0 0 15%;
+    margin: 10px;
+    color: $white;
+    font-size: 15px;
+    position: relative;
+}
+.url{
+    flex: 0 0 65%;
+    color: $white;
+    margin: 10px;
+    font-size: 15px;
+    position: relative;
+}
+.delete-link{
+    flex: 0 0 5%;
+    margin: 10px;
+    color: $white;
+    font-size: 15px;
+}
+.edit-link{
+    flex: 0 0 5%;
+    margin: 10px;
+    color: $white;
+    font-size: 15px;
+}
+.wrapper{
+    position: relative;
+    width: 900px;
+    display: flex;
+    flex-flow: wrap;
+    list-style: none;
+    justify-content: flex-start;
+    list-style: none;
+    text-align: center;
+    padding: 10px;
+    
+    border-radius: 50px;
+    margin: 10px;
+    background: rgba(255, 255, 255, 0.3);
+
+}
   

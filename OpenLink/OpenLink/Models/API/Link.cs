@@ -17,7 +17,7 @@ namespace OpenLink.Models
         public string OutputData { get; set; }
         public string Description { get; set; }
         [Required]
-        public Guid APIID { get; set; }
+        public string Method { get; set; }
 
     }
 }

@@ -5,9 +5,9 @@ import '../views/MainStyle.scss';
 
 
 export class TextEdit extends Component {
+    
     constructor(props) {
         super(props);
-        
        
 
         this.state={
@@ -55,20 +55,39 @@ export class TextEdit extends Component {
         
 
   render () {
+    var isTextarea=false;
+    if(this.props.type==="textarea"){
+        isTextarea=true;
+    }
+    var addFontSize =20;
+    if(this.props.fontSize!=null){
+        addFontSize=this.props.fontSize;               
+    }
+    var req ="*";
+    if(this.props.optional===true){
+        req="";
+    }
     return (
       <div>
           <div className="field-wrap">
                 {
                     this.state.isActive ?
-                        null : <label> {this.props.hint}<span className="req">*</span> </label>
+                        null : <label style={ {fontSize:addFontSize} }>
+                             {this.props.hint}<span className="req">{req}</span> 
+                             </label>
                 }
-            
+                {isTextarea ? 
+                <textarea 
+                onChange={this.update}
+                style={ {fontSize:addFontSize} }/> : 
                 <input
-                    type={this.props.type}
                     
-                    onChange={this.update}
-                    />
+                    style={ {fontSize:addFontSize} }
+                    type={this.props.type}
+                    onChange={this.update}/>
+                }
                 <div>
+                
                     {this.state.isError ? <p className="errorMessage">{this.state.errorMessage}</p> : null}
                 </div>
             </div>
