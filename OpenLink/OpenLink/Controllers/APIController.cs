@@ -23,49 +23,41 @@ namespace OpenLink.Controllers
             _context = context;
         }
         [HttpGet("api/getAll")]
-        public IEnumerable<APIModel> GetAll()
-
+        public ResponseObject GetAll()
         {
-            if (_context.APIModels.Any())
+            if (!_context.Account.Any())
             {
-                return null;
+                return new ResponseObject(null, false);
             }
             else
             {
-                return _context.APIModels.ToList();
+                List<APIModel> models = _context.APIModels.ToList();
+
+                foreach(APIModel model in models)
+                {
+                    model.Links = _context.Links.Where(x => x.APIID == model.ID).ToList();
+                }
+
+                return new ResponseObject(models, true);
             }
 
-
         }
-        //[HttpGet("api")]
-        //public ActionResult<APIModel> Get()
 
-        //{
-        //    Guid id = Guid.NewGuid();
-        //    List<Link> links = new List<Link>();
-        //    Link link = new Link
-        //    {
-        //        ID = Guid.NewGuid(),
-        //        InputData = "this is the data to input",
-        //        OutputData = "this is the data to output",
-        //        APIID = id,
-        //        Description = "this is the link description",
-        //        URL = "https://this is the url.com"
-        //    };
-        //    links.Add(link);
-        //    return new APIModel
-        //    {
-        //        ID = id,
-        //        UserID = Guid.NewGuid(),
-        //        Title = "Title",
-        //        Description = "this Discription is 12234",
-        //        Links = links
-
-        //    };
+        [HttpGet("api/deleteAll")]
+        public ResponseObject DeleteAll()
+        {
+            var rows = from o in _context.APIModels select o;
+            foreach (var row in rows)
+            {
+                _context.APIModels.Remove(row);
+            }
+            _context.SaveChanges();
+            return new ResponseObject(true, true);
+        }
 
 
-        //}
-        [HttpPost("api/create")]
+
+    [HttpPost("api/create")]
         public ResponseObject Create(APIModel model)
         {
             try
@@ -83,6 +75,12 @@ namespace OpenLink.Controllers
                 model.Date = DateTime.Now;
                 model.UserID = profile.ID;
                 model.ID = Guid.NewGuid();
+                foreach(Link link in model.Links)
+                {
+                    link.ID = Guid.NewGuid();
+                    link.APIID = model.ID;
+                    _context.Entry(link).State = EntityState.Added;
+                }
 
                 _context.Entry(model).State = EntityState.Added;
                 _context.SaveChanges();

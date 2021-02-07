@@ -19,6 +19,7 @@ namespace OpenLink.Data
 
         public DbSet<ProfileModel> ProfileModel { get; set; }
         public DbSet<APIModel> APIModels { get; set; }
+        public DbSet<Link> Links { get; set; }
         public object HttpContext { get; internal set; }
     }
 }

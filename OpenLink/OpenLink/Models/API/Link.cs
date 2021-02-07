@@ -18,6 +18,8 @@ namespace OpenLink.Models
         public string Description { get; set; }
         [Required]
         public string Method { get; set; }
+        
+        public Guid APIID { get; set; }
 
     }
 }

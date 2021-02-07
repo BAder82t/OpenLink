@@ -167,6 +167,7 @@ input, textarea {
     }
 }
 h2 {
+    top:40%;
     text-align: center;
     color: $white;
     font-weight: $thin;
@@ -228,6 +229,16 @@ label.highlight {
     display: inline-block;
     line-height: 15px;
     margin: 10px 10px 0;
+}
+.errorMessage-main {
+    text-align: center;
+    color: $red;
+    width: 100%;
+    font-weight: $thin;
+    font-size: 18px;
+    display: inline-block;
+    line-height: 15px;
+    margin: 20px 20px 20px;
 }
 .profile_name{
     text-align: left;
@@ -306,12 +317,12 @@ label.highlight {
 
   }
   
-  .right-half {
-    
+.right-half {
+
     position: relative;
     grid-column: 2;
 
-  }
+}
   .logout-button {
     display: inline-block;
     border: 0;
@@ -328,20 +339,21 @@ label.highlight {
     background: $main-light;
     color: $white;
   }
-  .scroll{
+.scroll{
     overflow-y: auto;
     overflow-x: hidden;
     scroll-behavior: smooth;
   }
-  .add-link{
+.add-link{
     text-align: center;
     border: 0px;
-    left:50%;
-    margin: 0 20px 20px 0;
+    left:45%;
+    width: 30%;
+    margin: 0 20px 20px -100px;
     position: relative;
     border-radius: 50px;
     padding:20px;
-    font-size: 20px;
+    font-size: 15px;
     text-transform: uppercase;
     letter-spacing: .1em;
     background: $main;
@@ -370,6 +382,7 @@ label.highlight {
     position: relative;
 }
 .url{
+    text-align: left;
     flex: 0 0 65%;
     color: $white;
     margin: 10px;
@@ -390,7 +403,7 @@ label.highlight {
 }
 .wrapper{
     position: relative;
-    width: 900px;
+    width: 100%;
     display: flex;
     flex-flow: wrap;
     list-style: none;
@@ -404,4 +417,39 @@ label.highlight {
     background: rgba(255, 255, 255, 0.3);
 
 }
-  
+.select-css {
+    
+    font-size: 17px;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.3;
+    padding: .6em 1.4em .5em .8em;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+    border-radius: .5em;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+}
+.select-css::-ms-expand {
+    display: none;
+  }
+  /* Hover style */
+.select-css:hover {
+    border-color: #888;
+}
+/* Focus style */
+.select-css:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222; 
+    outline: none;
+}
+.select-div-css{
+    margin: 0 0 30px 0;
+}

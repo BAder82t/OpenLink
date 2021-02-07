@@ -116,3 +116,36 @@ export function profile(token,callback){
               }
         });
 }
+
+export function createAPI(token,api,callback){
+    const endPoint = CONSTANTS.MAINURL+'/api/create';
+
+    var bodyData =JSON.stringify(api);
+    console.log("api body :"+bodyData+"  token :"+token);
+    axios({
+        method:'POST',
+        url:endPoint,
+        data:bodyData,
+        headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        }
+    }).then(function (response){
+        console.log(" Create API Response" + response.data);
+        callback(response.data);
+    }).catch(function (error) {
+        //handle error
+        if (error.response) {
+            // Request made and server responded
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.log(error.request);
+          } else if(error.message){
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+          }
+    });
+}
