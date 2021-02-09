@@ -131,7 +131,7 @@ export function createAPI(token,api,callback){
             'Content-Type': 'application/json'
         }
     }).then(function (response){
-        console.log(" Create API Response" + response.data);
+     
         callback(response.data);
     }).catch(function (error) {
         //handle error
@@ -148,4 +148,38 @@ export function createAPI(token,api,callback){
             console.log('Error', error.message);
           }
     });
+}
+export function getMyAPIs(token,callback){
+    const endPoint = CONSTANTS.MAINURL+'/api/getmyapis';
+    if(token.length>0){
+        console.log("calling get my apis  "+token);
+
+        axios({
+            method:'GET',
+            url:endPoint,
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response){
+            
+           console.log(response.data);
+            callback(response.data);
+        }).catch(function (error) {
+            //handle error
+            if (error.response) {
+                // Request made and server responded
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+              } else if(error.message){
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+        });
+    }
+    
 }

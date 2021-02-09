@@ -15,20 +15,38 @@ export class AddLink extends Component {
         this.inputModelRef = React.createRef();
         this.outputModelRef = React.createRef();
 
-        this.state ={
-            url:'',
-            method:"0",
-            description:'',
-            inputData:'',
-            outputData:''
+        
+        if(this.props.link === undefined ){
+            this.state ={
+                url:'',
+                method:"0",
+                description:'',
+                inputData:'',
+                outputData:''
+            }
+        }else{
+            this.state ={
+                method:this.props.link.method,
+                url:this.props.link.url,
+                description:this.props.link.description,
+                inputData:this.props.link.inputData,
+                outputData:this.props.link.outputData
+            }
+    
+            
         }
-
+        
         this.getMethod=this.getMethod.bind(this);
         this.getURL = this.getURL.bind(this);
         this.getDescription =this.getDescription.bind(this);
         this.getOutput =this.getOutput.bind(this);
         this.getInput = this.getInput.bind(this);
         this.addLink = this.addLink.bind(this);
+
+
+        
+
+
         }
 
     getMethod(e){
@@ -89,7 +107,8 @@ export class AddLink extends Component {
     }
     
     render() {
-        
+       
+
         return( 
             <div>
                 <div className="select-div-css"> 
@@ -107,7 +126,7 @@ export class AddLink extends Component {
                         <option value="UNLINK">UNLINK</option>
                         <option value="PURGE">PURGE</option>
                         <option value="LOCK">LOCK</option>
-                        <option value="UNLOCK9">UNLOCK</option>
+                        <option value="UNLOCK">UNLOCK</option>
                         <option value="PROPFIND">PROPFIND</option>
                         <option value="VIEW">VIEW</option>
                     </select>
@@ -115,6 +134,7 @@ export class AddLink extends Component {
                 
 
                 <TextEdit
+                    value={this.state.url}
                     optional={true}
                     type="text"
                     ref={this.urlRef}
@@ -122,12 +142,14 @@ export class AddLink extends Component {
                     fontSize={16}
                     getValue={this.getURL}/>
                 <TextEdit
+                    value={this.state.description}
                     type="textarea"
                     ref={this.descriptionRef}
                     hint="Description"
                     getValue ={this.getDescription}
                     fontSize={16}/>
                 <TextEdit
+                    value={this.state.inputData}
                     optional={true}
                     type="textarea"
                     ref={this.inputModelRef}
@@ -135,6 +157,7 @@ export class AddLink extends Component {
                     getValue={this.getInput}
                     fontSize={16}/>
                 <TextEdit
+                    value={this.state.outputData}
                     optional={true}
                     type="textarea"
                     ref={this.outputModelRef}

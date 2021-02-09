@@ -8,10 +8,16 @@ export class TextEdit extends Component {
     
     constructor(props) {
         super(props);
+        var hasValue;
+        if(this.props.value ===""){
+            hasValue=false;
+        }else{
+            hasValue=true;
+        }
        
 
         this.state={
-            isActive : false,
+            isActive : hasValue,
             value:'',
             errorMessage:'',
             isError:false
@@ -67,6 +73,10 @@ export class TextEdit extends Component {
     if(this.props.optional===true){
         req="";
     }
+    var myValue ='';
+    if(this.props.value!==null){
+        myValue=this.props.value;
+    }
     return (
       <div>
           <div className="field-wrap">
@@ -78,10 +88,11 @@ export class TextEdit extends Component {
                 }
                 {isTextarea ? 
                 <textarea 
-                onChange={this.update}
-                style={ {fontSize:addFontSize} }/> : 
+                    value={myValue}
+                    onChange={this.update}
+                    style={ {fontSize:addFontSize} }/> : 
                 <input
-                    
+                    value={myValue}
                     style={ {fontSize:addFontSize} }
                     type={this.props.type}
                     onChange={this.update}/>

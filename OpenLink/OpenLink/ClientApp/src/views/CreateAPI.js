@@ -22,7 +22,8 @@ export class CreateAPI extends Component {
             addNewLink:false,
             redirectProfile:false,
             isError:false,
-            errorMessage:''
+            errorMessage:'',
+            editLink:null
         }
         this.getTitle = this.getTitle.bind(this);
         this.getDescription= this.getDescription.bind(this);
@@ -30,6 +31,8 @@ export class CreateAPI extends Component {
         this.addLinkToList =  this.addLinkToList.bind(this);
         this.done = this.done.bind(this);
         this.getAPIResponse = this.getAPIResponse.bind(this);
+        this.deleteLink = this.deleteLink.bind(this);
+        this.editLink =this.editLink.bind(this);
     }
 
     getTitle(value){
@@ -42,13 +45,22 @@ export class CreateAPI extends Component {
     addLinkComponent(e){
         e.preventDefault();
         this.setState({
-            addNewLink:true
+            addNewLink:true,
+            editLink:null
 
+        });
+    }
+    addLinkComponent(e,link){
+        e.preventDefault();
+        this.setState({
+            addNewLink:true,
+            editLink:link
         });
     }
     removeLinkComponent(){
         this.setState({
-            addNewLink:false
+            addNewLink:false,
+            editLink:null
         });
     }
 
@@ -100,26 +112,42 @@ export class CreateAPI extends Component {
             });
         }
     }
+    deleteLink(e,remove){
+        console.log("deleted");
+        e.preventDefault();
+        this.setState({links: this.state.links.filter(function(link) { 
+            return link !== remove;
+        })});
+    }
+
+    editLink(e,link){
+        console.log("edit link"+link);
+        e.preventDefault();
+        this.addLinkComponent(e,link);
+        this.deleteLink(e,link);
+    }
 
    
 
     render() {
-        console.log("redirect "+this.state.redirectProfile);
+        console.log("editLink "+this.state.editLink);
         if(this.state.redirectProfile){
           
-            return <Redirect to='/'/>;
+            return <Redirect to='/account'/>;
         }else{
             return(
                 <div  className="scroll">
                     <div className="big-form">
                         <h2>Add you API Service</h2>
                         <TextEdit
+                            value={this.state.title}
                             type="text"
                             ref={this.titleRef}
                             hint="Title"
                             getValue ={this.getTitle}
                             fontSize={40}/>
                         <TextEdit
+                            value={this.state.description}
                             optional={true}
                             type="textarea"
                             ref={this.descriptionRef}
@@ -140,13 +168,13 @@ export class CreateAPI extends Component {
                                     <li className="wrapper" key={i}>
                                         <p className="method">Method: {link.method}</p>
                                         <p className="url">URL: {link.url}</p>
-                                        <p className="delete-link">Delete</p>
-                                        <p className="edit-link">Edit</p>
+                                        <p className="delete-link" onClick={(e) => {this.deleteLink(e,link)}}>Delete</p>
+                                        <p className="edit-link" onClick={(e) => {this.editLink(e,link)}}>Edit</p>
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                        {this.state.addNewLink ? <AddLink addLinkToList={this.addLinkToList}/> : null}
+                        {this.state.addNewLink ? <AddLink link={this.state.editLink} addLinkToList={this.addLinkToList}/> : null}
                         {this.state.isError ? <p className="errorMessage-main">{this.state.errorMessage}</p> : null}
                         <button className="button button-block" onClick={this.done}>Done</button>
                     

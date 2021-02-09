@@ -112,6 +112,10 @@ namespace OpenLink.Service
 
 		public static ResponseObject ValidateToken(ControllerBase request)
         {
+            try
+            {
+
+          
             
 			var header = AuthenticationHeaderValue.Parse(request.Request.Headers["Authorization"]);
             if (header == null)
@@ -133,6 +137,11 @@ namespace OpenLink.Service
 			var idclaim = list?.FirstOrDefault(x => x.Type.Equals("nameid", StringComparison.OrdinalIgnoreCase))?.Value;
 			Guid id = Guid.Parse(idclaim);
 			return new ResponseObject(id,true);
+			}
+			catch (Exception e)
+			{
+				return new ResponseObject(e, false);
+			}
 		}
 
 	}

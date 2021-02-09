@@ -43,6 +43,37 @@ namespace OpenLink.Controllers
 
         }
 
+        [HttpGet("api/getMyAPIs")]
+        public ResponseObject getMyAPIs()
+        {
+            ResponseObject obj = TokenGenerator.ValidateToken(this);
+
+            if (!obj.Valid)
+            {
+                return new ResponseObject((Exception)obj.InvalidObject, false);
+            }
+            Guid id = (Guid)obj.ValidObject;
+            Account validAccount = _context.Account.Where(x => x.ID == id).FirstOrDefault();
+            Guid profileID = validAccount.RegisterID;
+
+            if (!_context.Account.Any())
+            {
+                return new ResponseObject(null, false);
+            }
+            else
+            {
+                List<APIModel> models = _context.APIModels.Where(x => x.UserID == profileID).ToList();
+
+                foreach (APIModel model in models)
+                {
+                    model.Links = _context.Links.Where(x => x.APIID == model.ID).ToList();
+                }
+
+                return new ResponseObject(models, true);
+            }
+
+        }
+
         [HttpGet("api/deleteAll")]
         public ResponseObject DeleteAll()
         {

@@ -5,6 +5,7 @@ $body-bg: #a2bcc4;
 $form-bg: #13232f;
 $white: #ffffff;
 $red: #cc0033;
+$light-red: #da3961;
 
 $main: #1ab188;
 $main-light: lighten($main,5%);
@@ -251,7 +252,7 @@ label.highlight {
     text-align: center;
     border: 0;
     left:50%;
-    margin: -100px 0 0 -150px;
+    margin: 0 0 0 -130px;
     outline: none;
     position: relative;
     overflow: hidden;
@@ -383,7 +384,7 @@ label.highlight {
 }
 .url{
     text-align: left;
-    flex: 0 0 65%;
+    flex: 0 0 60%;
     color: $white;
     margin: 10px;
     font-size: 15px;
@@ -393,7 +394,8 @@ label.highlight {
     flex: 0 0 5%;
     margin: 10px;
     color: $white;
-    font-size: 15px;
+    font-size: 17px;
+    
 }
 .edit-link{
     flex: 0 0 5%;
@@ -416,6 +418,45 @@ label.highlight {
     margin: 10px;
     background: rgba(255, 255, 255, 0.3);
 
+}
+.api-wrapper{
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    list-style: none;
+    justify-content: flex-start;
+    list-style: none;
+    text-align: center;
+    align-items: center;
+
+}
+.api-list-title{
+    top: 10%;
+    text-align: center;
+    margin: 10px;
+    position: relative;
+    color: $white;
+    font-size: 30px;
+    justify-content: center;
+}
+.api-list-div{
+    position: relative;
+    width:230px;
+    height: 150px;
+    justify-content: center;
+    border-radius: 10px;
+    margin: 10px;
+    background: rgba(255, 255, 255, 0.3);
+}
+.api-list-description{
+    top: 10%;
+   position: relative;
+    text-align: center;
+    padding: 5px;
+    color: $white;
+    font-size: 14px;
+    justify-content: center;
 }
 .select-css {
     

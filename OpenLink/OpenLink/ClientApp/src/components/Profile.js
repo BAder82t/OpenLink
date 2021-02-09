@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { profile } from '../services/APIService';
 import '../views/MainStyle.scss';
 
-
+var _isMounted = false;
 export class Profile extends Component {
     constructor(props) {
         super(props);
@@ -17,22 +17,33 @@ export class Profile extends Component {
     }
 
     getProfile(response){
-        const  data = response.validObject;
-        console.log("profile getProfile"+ data.name);
-        
-        this.setState({
-            profileModel:response.validObject,
-            loading:false
-        });
+        if(_isMounted){
+            const  data = response.validObject;
+            console.log("profile getProfile"+ data.name);
+            
+            this.setState({
+                profileModel:response.validObject,
+                loading:false
+            });
+        }
 
     }
 
     componentDidMount(){
-        if(!this.state.redirectToDashboard){
-            profile(this.props.token,this.getProfile);
-            console.log("Load profiel");
+        _isMounted=true;
+        if(this.state.profileModel===null){
+            if(!this.state.redirectToDashboard){
+                if(this.props.token.length>0){
+                    profile(this.props.token,this.getProfile);
+                    console.log("Load profiel");
+                }
+                
+            }
         }
         
+    }
+    componentWillUnmount(){
+        _isMounted=false;
     }
 
     logout(e){

@@ -108,6 +108,7 @@ export class LoginPage extends Component {
                     <div>
                         <h2>Sign in to OpenLink</h2>
                         <TextEdit
+                        value={this.state.username}
                         type="text"
                         ref={this.usernameRef}
                         getValue = {this.getUsername}
@@ -117,6 +118,7 @@ export class LoginPage extends Component {
                     
           
                     <TextEdit
+                        value={this.state.password}
                         type="password"
                         getValue={this.getPassword}
                         ref={this.passwordRef}
