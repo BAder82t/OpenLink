@@ -126,18 +126,26 @@ namespace OpenLink.Controllers
 
 
         [HttpPost("api/search")]
-        public async Task<ResponseObject> Search(String searchString)
+        public async Task<ResponseObject> Search(SearchModel searchModel)
         {
             try
             {
                 List<APIModel> models = new List<APIModel>();
                 var apis = from m in _context.APIModels select m;
-                if (!String.IsNullOrEmpty(searchString))
+                if (!String.IsNullOrEmpty(searchModel.SearchString))
                 {
-                    apis = apis.Where(s => s.Title.Contains(searchString));
+                    apis = apis.Where(s => s.Title.Contains(searchModel.SearchString));
 
                 }
+                else
+                {
+                    apis = _context.APIModels;
+                }
                 models = await apis.ToListAsync();
+                foreach (APIModel model in models)
+                {
+                    model.Links = _context.Links.Where(x => x.APIID == model.ID).ToList();
+                }
                 return new ResponseObject(models, true);
             }catch(Exception e)
             {
@@ -161,7 +169,10 @@ namespace OpenLink.Controllers
                 Guid profileID = validAccount.RegisterID;
                 ProfileModel profile = _context.ProfileModel.Where(p => p.ID == profileID).FirstOrDefault();
                 List<APIModel> models = _context.APIModels.Include(x => x.UserID == profile.ID).ToList();
-
+                foreach (APIModel model in models)
+                {
+                    model.Links = _context.Links.Where(x => x.APIID == model.ID).ToList();
+                }
                 models.OrderByDescending(x => x.Date);
                 return new ResponseObject(models, true);
 

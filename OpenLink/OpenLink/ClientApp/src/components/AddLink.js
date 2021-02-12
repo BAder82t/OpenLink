@@ -135,7 +135,6 @@ export class AddLink extends Component {
 
                 <TextEdit
                     value={this.state.url}
-                    optional={true}
                     type="text"
                     ref={this.urlRef}
                     hint="URL"
@@ -150,7 +149,6 @@ export class AddLink extends Component {
                     fontSize={16}/>
                 <TextEdit
                     value={this.state.inputData}
-                    optional={true}
                     type="textarea"
                     ref={this.inputModelRef}
                     hint="Input Model"
@@ -158,7 +156,6 @@ export class AddLink extends Component {
                     fontSize={16}/>
                 <TextEdit
                     value={this.state.outputData}
-                    optional={true}
                     type="textarea"
                     ref={this.outputModelRef}
                     hint="Output Model"

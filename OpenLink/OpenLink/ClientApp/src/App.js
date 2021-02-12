@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+import { Route  } from 'react-router';
 import { Layout } from './components/Layout';
-import { FetchData } from './components/FetchData';
-import { FetchDataAxios } from './components/FetchDataAxios';
 
 import './custom.css'
 import { LoginPage } from './views/LoginPage';
@@ -11,6 +9,7 @@ import { CreateAPI } from './views/CreateAPI'
 import { Register } from './views/Register';
 import { Account } from './views/Account';
 import { profile } from './services/APIService';
+import { APIPage } from './views/APIPage';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -21,14 +20,21 @@ export default class App extends Component {
       isLoggedIn:false,
       accessToken:'',
       refreshToken:'',
-      name:''
+      name:'',
+      api:null
     }
     this.loggedIn= this.loggedIn.bind(this);
     this.getProfile = this.getProfile.bind(this);
     this.logout = this.logout.bind(this);
+    this.getApi = this.getApi.bind(this);
     
 
 }
+  getApi(myApi){
+    this.setState({
+      api:myApi
+    })
+  }
 
   getProfile(response){
     this.setState({
@@ -54,6 +60,7 @@ export default class App extends Component {
       });
     
   }
+
   logout(){
     console.log("Logout")
     localStorage.setItem('accessToken', '');
@@ -88,20 +95,22 @@ export default class App extends Component {
 
     return (
       <Layout isLoggedIn={this.state.isLoggedIn} getName={this.state.name}>
-            <Route exact path='/' component={Dashboard} />
-            
-            
-            <Route path="/createAPI" component={() =><CreateAPI token={this.state.accessToken}/>}/>
-            <Route path='/account' component={()=><Account token={this.state.accessToken} logout={this.logout}/>}/>
-            
-            {
-            this.isLoggedIn ? 
-               null: 
-              <Route path='/login' component={() => <LoginPage loggedIn={this.loggedIn} />} />
-            }
-            
-            
-            <Route path='/register' component={() => <Register loggedIn={this.loggedIn}/>} />
+        
+                <Route exact path='/' component={()=><Dashboard sendApi={this.getApi} />} />
+                
+                <Route path="/api" component={() =><APIPage getApi={this.state.api}/>}/>
+                <Route path="/createAPI" component={() =><CreateAPI token={this.state.accessToken}/>}/>
+                <Route path='/account' component={()=><Account sendApi={this.getApi} token={this.state.accessToken} logout={this.logout}/>}/>
+                
+                {
+                this.isLoggedIn ? 
+                  null: 
+                  <Route path='/login' component={() => <LoginPage loggedIn={this.loggedIn} />} />
+                }
+                
+                
+                <Route path='/register' component={() => <Register loggedIn={this.loggedIn}/>} />
+          
       </Layout>
     );
   }

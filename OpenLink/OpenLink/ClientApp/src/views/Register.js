@@ -101,21 +101,25 @@ export class Register extends Component {
                         <h2>Create your account</h2>
                         
                         <TextEdit
+                        value={this.state.name}
                         type="text"
                         ref={this.nameRef}
                         hint="Name"
                         getValue ={this.getName}/>
                         <TextEdit
+                        value={this.state.username}
                         type="text"
                         ref={this.usernameRef}
                         hint="Username"
                         getValue={this.getUsername}/>
                         <TextEdit
+                        valid={this.state.password}
                         ref={this.passwordRef}
                         type="password"
                         hint="Password"
                         getValue={this.getPassword}/>
                         <TextEdit
+                        value={this.state.retypePassword}
                         ref={this.retypePasswordRef}
                         type="password"
                         hint="Retype your Password "
