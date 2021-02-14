@@ -12,12 +12,15 @@ export class APIPage extends Component {
             api:this.props.getApi,
             redirectToDashboard : false
         }
-        if(this.state.api !== undefined){
-
-        }
+        this.NewlineText = this.NewlineText.bind(this);
   
         
     }
+    NewlineText(props) {
+        const text = props.text;
+        return text.split('\n').map(str => <p className="profile_name">{str}</p>);
+      }
+      
    
     render() {
         
@@ -35,11 +38,15 @@ export class APIPage extends Component {
                     {this.state.api.links.map((link,i) => (
                                
                             <div className="profile_form" key={i}>
-                                <p className="profile_name">Method:{link.method}</p>
-                                <p className="profile_name">URL:{link.url}</p>
-                                <p className="profile_name">Description:{link.description}</p>
-                                <p className="profile_name">InputData:{link.inputData}</p>
-                                <p className="profile_name">OutputData:{link.outputData}</p>
+                                <this.NewlineText text={"Method: \n"+link.method}/>
+                                <br/>
+                                <this.NewlineText text={"URL: \n"+link.url}></this.NewlineText>
+                                <br/>
+                                <this.NewlineText text={"Description: \n"+link.description}></this.NewlineText>
+                                <br/>
+                                <this.NewlineText text={"Input Data: \n"+link.inputData}/>
+                                <br/>
+                                <this.NewlineText text={"Output Data: \n"+link.outputData}/>
                                 
                             </div>
                             

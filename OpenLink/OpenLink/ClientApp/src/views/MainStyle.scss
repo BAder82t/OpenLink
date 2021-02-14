@@ -283,7 +283,6 @@ label.highlight {
         bottom: 0;
         left: 0;
         border-radius: 20px;
-
         width: 0%;
         height: 100%;
         background-color: darken($main, 15%);
@@ -295,10 +294,9 @@ label.highlight {
         &:before {
           width: 100%;
         }
-
     }
-   
 }
+
 .profile_username{
     position: relative;
     text-align: left;
@@ -413,13 +411,17 @@ label.highlight {
     list-style: none;
     text-align: center;
     padding: 10px;
-    
+    overflow: hidden;
     border-radius: 50px;
     margin: 10px;
     background: rgba(255, 255, 255, 0.3);
-
+}
+.api-list-div:hover {
+    background: rgba(255, 255, 255, 0.116);
+    
 }
 .api-wrapper{
+    word-wrap: break-word;
     position: relative;
     width: 100%;
     display: flex;

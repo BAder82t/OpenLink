@@ -7,7 +7,14 @@ import '../views/MainStyle.scss';
 export class TextEdit extends Component {
     
     constructor(props) {
+        
         super(props);
+
+        this.value ='';
+        if(this.props.value!==null){
+            this.value=this.props.value;
+        }
+
         var hasValue;
         if(this.props.value ===""){
             hasValue=false;
@@ -18,7 +25,6 @@ export class TextEdit extends Component {
 
         this.state={
             isActive : hasValue,
-            value:'',
             errorMessage:'',
             isError:false
         }
@@ -29,16 +35,14 @@ export class TextEdit extends Component {
 
     update(event) {
 
-        this.setState({ value:event.target.value }, function () { 
-            if (this.state.value == "") {
-                this.setState({ isActive: false })
-            } else {
-                this.setState({ isActive: true })
+        this.value=event.target.value
+        if( this.value== "") {
+            this.setState({ isActive: false })
+        } else {
+            this.setState({ isActive: true })
+        }
+        this.props.getValue(this.value);
     
-            }
-            this.props.getValue(this.state.value);
-            
-        });
         
     }
     
