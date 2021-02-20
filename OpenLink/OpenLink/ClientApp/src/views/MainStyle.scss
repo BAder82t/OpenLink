@@ -496,3 +496,58 @@ label.highlight {
 .select-div-css{
     margin: 0 0 30px 0;
 }
+.comment_div{
+    float: right;
+    position: relative;
+}
+.cancel_button{
+    margin: -10px 10px 0 0;
+    padding: 10px;
+    display: inline-block;
+    border: 0;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    font-weight: $bold;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: transparent;
+    color: $white;
+}
+.comment_button{
+    margin: -10px 10px 0 10px;
+    padding:10px;
+    display: inline-block;
+    border: 0;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    font-weight: $bold;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: $main-light;
+    color: $white;
+}
+.comment_list_div{
+    margin-bottom: 20px;
+    position: relative;
+}
+.comment_name{
+    margin: 10px;
+    position: relative;
+    color: $white;
+    font-weight: $bold;
+    font-size: 14px;
+}
+.comment_message{
+    margin: 10px;
+    position: relative;
+    color: $white;
+    font-size: 17px;
+}
+.comment_date{
+    margin: 10px;
+    position: relative;
+    color: $gray-light;
+    font-size: 13px;
+}

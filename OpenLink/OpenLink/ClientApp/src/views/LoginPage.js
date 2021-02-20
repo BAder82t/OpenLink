@@ -112,7 +112,7 @@ export class LoginPage extends Component {
                         type="text"
                         ref={this.usernameRef}
                         getValue = {this.getUsername}
-                        hint="Username"/>
+                        hint="Email"/>
                      
                     </div>
                     

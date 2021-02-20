@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OpenLink.Models;
+using OpenLink.Models.API;
 using OpenLink.Models.Login;
 
 namespace OpenLink.Data
@@ -20,6 +21,8 @@ namespace OpenLink.Data
         public DbSet<ProfileModel> ProfileModel { get; set; }
         public DbSet<APIModel> APIModels { get; set; }
         public DbSet<Link> Links { get; set; }
+        public DbSet<CommentModel> Comments { get; set; }
+        public DbSet<CommentVoteModel> Votes { get; set; }
         public object HttpContext { get; internal set; }
     }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../views/MainStyle.scss';
-
 import { TextEdit } from './TextEdit';
 
 

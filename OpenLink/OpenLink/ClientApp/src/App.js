@@ -98,7 +98,7 @@ export default class App extends Component {
         
                 <Route exact path='/' component={()=><Dashboard sendApi={this.getApi} />} />
                 
-                <Route path="/api" component={() =><APIPage getApi={this.state.api}/>}/>
+                <Route path="/api" component={() =><APIPage token={this.state.accessToken} isLoggedIn={this.state.isLoggedIn}  getApi={this.state.api}/>}/>
                 <Route path="/createAPI" component={() =><CreateAPI token={this.state.accessToken}/>}/>
                 <Route path='/account' component={()=><Account sendApi={this.getApi} token={this.state.accessToken} logout={this.logout}/>}/>
                 

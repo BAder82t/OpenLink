@@ -220,3 +220,77 @@ export function searchAPIs(search,callback){
     
     
 }
+
+export function addNewComment(comment,id,token,callback){
+    const endPoint = CONSTANTS.MAINURL+'/api/Comment/addcomment';
+    var bodyData =JSON.stringify({ 
+        message: comment,
+        apiid:id
+    });
+
+    axios({
+        method:'POST',
+        url:endPoint,
+        data:bodyData,
+        headers: {   
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    }).then(function (response){
+        
+        console.log(response.data);
+        callback(response.data);
+    }).catch(function (error) {
+        //handle error
+        if (error.response) {
+            // Request made and server responded
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+            } else if (error.request) {
+            // The request was made but no response was received
+            console.log(error.request);
+            } else if(error.message){
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+            }
+    });
+    
+    
+}
+export function getComments(id,callback){
+    const endPoint = CONSTANTS.MAINURL+'/api/Comment/GetAllComments';
+       
+    var bodyData =JSON.stringify({ 
+        apiid:id
+    });
+
+    axios({
+        method:'POST',
+        url:endPoint,
+        data:bodyData,
+        headers: {   
+            'Content-Type': 'application/json'
+        }
+    }).then(function (response){
+        
+        console.log(response.data);
+        callback(response.data);
+    }).catch(function (error) {
+        //handle error
+        if (error.response) {
+            // Request made and server responded
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+            } else if (error.request) {
+            // The request was made but no response was received
+            console.log(error.request);
+            } else if(error.message){
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+            }
+    });
+    
+    
+}

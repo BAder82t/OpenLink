@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenLink.Data;
 using OpenLink.Models;
+using OpenLink.Models.API;
 using OpenLink.Models.Login;
 using OpenLink.Service;
 using System;
@@ -17,6 +18,7 @@ namespace OpenLink.Controllers
     public class APIController : ControllerBase
     {
         private readonly OpenLinkContext _context;
+        
 
         public APIController(OpenLinkContext context)
         {
@@ -103,7 +105,8 @@ namespace OpenLink.Controllers
                 Account validAccount = _context.Account.Where(x => x.ID == id).FirstOrDefault();
                 Guid profileID = validAccount.RegisterID;
                 ProfileModel profile = _context.ProfileModel.Where(p => p.ID == profileID).FirstOrDefault();
-                model.Date = DateTime.Now;
+                model.Date = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fffff:zz");
+                model.RealDate = DateTime.Now;
                 model.UserID = profile.ID;
                 model.ID = Guid.NewGuid();
                 foreach(Link link in model.Links)
@@ -154,7 +157,7 @@ namespace OpenLink.Controllers
         }
 
         [HttpGet("api/myapis")]
-        public async Task<ResponseObject> GetMyAPIs()
+        public  ResponseObject GetMyAPIs()
         {
             try
             {
@@ -171,9 +174,9 @@ namespace OpenLink.Controllers
                 List<APIModel> models = _context.APIModels.Include(x => x.UserID == profile.ID).ToList();
                 foreach (APIModel model in models)
                 {
-                    model.Links = _context.Links.Where(x => x.APIID == model.ID).ToList();
+                    model.Links =  _context.Links.Where(x => x.APIID == model.ID).ToList();
                 }
-                models.OrderByDescending(x => x.Date);
+                models.OrderByDescending(x => x.RealDate);
                 return new ResponseObject(models, true);
 
 
@@ -184,5 +187,9 @@ namespace OpenLink.Controllers
             }
 
         }
+
+
     }
+
+    
 }

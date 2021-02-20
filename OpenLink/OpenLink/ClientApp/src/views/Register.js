@@ -68,12 +68,15 @@ export class Register extends Component {
         this.passwordRef.current.removeError();
         this.retypePasswordRef.current.removeError();
         this.usernameRef.current.removeError();
-
         let passwordLength = this.state.password.length
-        if(this.state.name===''){
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if(!re.test(this.state.username)){
+            this.usernameRef.current.showErrorMessage("Please enter a proper email address"); 
+        }else if(this.state.name===''){
             this.nameRef.current.showErrorMessage("Please enter your name");  
         }else if(this.state.username===''){
-            this.usernameRef.current.showErrorMessage("Please enter your username");  
+            this.usernameRef.current.showErrorMessage("Please enter your email address");  
         }else if(passwordLength<7){
             this.passwordRef.current.showErrorMessage("Your password should contain more than 7 characters");  
         }else if(this.state.password=== this.state.retypePassword){
@@ -110,7 +113,7 @@ export class Register extends Component {
                         value={this.state.username}
                         type="text"
                         ref={this.usernameRef}
-                        hint="Username"
+                        hint="Email"
                         getValue={this.getUsername}/>
                         <TextEdit
                         valid={this.state.password}

@@ -18,7 +18,8 @@ namespace OpenLink.Models
         
         public Guid UserID { get; set; }
         
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
+        public DateTime RealDate { get; set; }
 
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OpenLink.Data;
 
 namespace OpenLink.Migrations
 {
     [DbContext(typeof(OpenLinkContext))]
-    partial class OpenLinkContextModelSnapshot : ModelSnapshot
+    [Migration("20210218213537_Comments")]
+    partial class Comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,8 +33,8 @@ namespace OpenLink.Migrations
                     b.Property<Guid?>("CommentModelID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Date")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("DidVote")
                         .HasColumnType("bit");
@@ -42,9 +44,6 @@ namespace OpenLink.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("RealDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ReplyID")
                         .HasColumnType("uniqueidentifier");
@@ -88,14 +87,11 @@ namespace OpenLink.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Date")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("RealDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()

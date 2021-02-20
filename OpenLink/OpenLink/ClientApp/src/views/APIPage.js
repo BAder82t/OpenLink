@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Comments } from '../components/Comments';
 import './MainStyle.scss';
 
 
@@ -53,7 +54,8 @@ export class APIPage extends Component {
                             
                         ))}
                     <div className="profile_form">
-                        <h2 className="profile_name">Reviews Coming Soon...</h2>
+                        <h2 className="profile_name">Comments</h2>
+                        <Comments token={this.props.token} isLoggedIn={this.props.isLoggedIn} APIID ={this.state.api.id}/>
                     </div>
                     
                 </div>
