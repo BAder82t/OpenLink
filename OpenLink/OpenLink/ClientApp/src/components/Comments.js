@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { addNewComment,getComments } from '../services/APIService';
+import { addNewComment,getComments, voteComment } from '../services/APIService';
 import Moment from 'react-moment';
 
 
@@ -22,6 +22,8 @@ export class Comments extends Component {
       this.cancelComment = this.cancelComment.bind(this);
       this.addThisComment = this.addThisComment.bind(this);
       this.getReturn =this.getReturn.bind(this);
+      this.getAllComments = this.getAllComments.bind(this);
+      this.vote = this.vote.bind(this);
 
       this.commentRef = React.createRef();
   
@@ -30,7 +32,10 @@ export class Comments extends Component {
  
 
   componentDidMount(){
-      getComments(this.props.APIID,this.getReturn);
+      this.getAllComments();
+  }
+  getAllComments(){
+    getComments(this.props.APIID,this.props.token,this.getReturn);
   }
 
   getComment(e){
@@ -41,6 +46,7 @@ export class Comments extends Component {
 
   getReturn(data){
     //refresh Comments
+    console.log("load Comments");
     if(data.valid){
         this.setState({
             comments:data.validObject,
@@ -78,6 +84,7 @@ timeAgo(prevDate){
 }
 
 
+
   addThisComment(e){
       
     e.preventDefault();
@@ -85,10 +92,12 @@ timeAgo(prevDate){
     var id =this.props.APIID ;
     var token = this.props.token;
     this.setState({
+        
         loading:true
     },()=>{
-        addNewComment(self.state.comment,id,token,self.getReturn);
-    })
+        addNewComment(self.state.comment,id,token,self.getAllComments);
+        this.cancelComment(e);
+    });
     
   }
   cancelComment(e){
@@ -100,6 +109,10 @@ timeAgo(prevDate){
   getDate(date){
       var ago = this.timeAgo(new Date(date));
       return (<p className="comment_date">{ago}</p>);
+  }
+  vote(e,res,id){
+      e.preventDefault();
+      voteComment(res,id,this.props.token,this.getAllComments);
   }
    
     
@@ -138,14 +151,28 @@ timeAgo(prevDate){
                         <div  key={i}>
                             <div className="comment_list_div">
                                 <div className="api-wrapper">
+                                    {myComment.vote==0?null:<p className="comment_name">{myComment.vote}</p>}
+                                    
                                     <p className="comment_name">{myComment.name}</p>
                                     {this.getDate(myComment.date)}
                                 </div>    
                                 <p className="comment_message">{myComment.messege}</p>
+                                {this.props.isLoggedIn? 
+                                    myComment.didVote==0?
+                                    <div className="api-wrapper">
+                                        <p className= "comment_vote"onClick={(e) => {this.vote(e,true,myComment.id)}}>Agree</p>
+                                        <p className= "comment_vote" onClick={(e) => {this.vote(e,false,myComment.id)}}>Disagree</p>
+                                    </div>:
+                                    myComment.didVote==1?
+                                        <div className="api-wrapper">
+                                            <p className= "comment_voted"onClick={(e) => {this.vote(e,true,myComment.id)}}>Agreed</p>
+                                        </div>:
+                                        <div className="api-wrapper">
+                                            <p className= "comment_voted" onClick={(e) => {this.vote(e,false,myComment.id)}}>Disagreed</p>
+                                        </div>
+                                :null}
                                 
                             </div>
-                            
-                            
                         </div>
                     
                         

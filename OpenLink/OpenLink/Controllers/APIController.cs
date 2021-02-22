@@ -135,6 +135,7 @@ namespace OpenLink.Controllers
             {
                 List<APIModel> models = new List<APIModel>();
                 var apis = from m in _context.APIModels select m;
+                int numberOfAPIS = 2;
                 if (!String.IsNullOrEmpty(searchModel.SearchString))
                 {
                     apis = apis.Where(s => s.Title.Contains(searchModel.SearchString));
@@ -149,7 +150,22 @@ namespace OpenLink.Controllers
                 {
                     model.Links = _context.Links.Where(x => x.APIID == model.ID).ToList();
                 }
-                return new ResponseObject(models, true);
+                var count = models.Count();
+                int max = count / numberOfAPIS;
+                if (count % numberOfAPIS > 0)
+                {
+                    max++;
+                }
+                int skipNum = numberOfAPIS * searchModel.PageNumber;
+                var list= models.Skip(skipNum).Take(numberOfAPIS);
+
+                ObjectListModel objectListModel = new ObjectListModel
+                {
+                    Obj = max,
+                    List = list
+                }
+               ;
+                return new ResponseObject(objectListModel, true);
             }catch(Exception e)
             {
                 return new ResponseObject(e, false);

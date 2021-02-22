@@ -183,12 +183,12 @@ export function getMyAPIs(token,callback){
     }
     
 }
-export function searchAPIs(search,callback){
+export function searchAPIs(search,pageNum,callback){
     const endPoint = CONSTANTS.MAINURL+'/api/search';
        
     var bodyData =JSON.stringify({ 
         searchString: search,
-        pageNumber:1
+        pageNumber:pageNum
     });
 
     axios({
@@ -239,6 +239,43 @@ export function addNewComment(comment,id,token,callback){
     }).then(function (response){
         
         console.log(response.data);
+        callback();
+    }).catch(function (error) {
+        //handle error
+        if (error.response) {
+            // Request made and server responded
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+            } else if (error.request) {
+            // The request was made but no response was received
+            console.log(error.request);
+            } else if(error.message){
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+            }
+    });
+    
+    
+}
+export function getComments(id,token,callback){
+    const endPoint = CONSTANTS.MAINURL+'/api/Comment/GetAllComments';
+       
+    var bodyData =JSON.stringify({ 
+        apiid:id
+    });
+
+    axios({
+        method:'POST',
+        url:endPoint,
+        data:bodyData,
+        headers: {   
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    }).then(function (response){
+        
+        console.log(response.data);
         callback(response.data);
     }).catch(function (error) {
         //handle error
@@ -258,11 +295,13 @@ export function addNewComment(comment,id,token,callback){
     
     
 }
-export function getComments(id,callback){
-    const endPoint = CONSTANTS.MAINURL+'/api/Comment/GetAllComments';
-       
+
+
+export function voteComment(response,id,token,callback){
+    const endPoint = CONSTANTS.MAINURL+'/api/Comment/vote';
     var bodyData =JSON.stringify({ 
-        apiid:id
+        response: response,
+        commentID:id
     });
 
     axios({
@@ -270,12 +309,13 @@ export function getComments(id,callback){
         url:endPoint,
         data:bodyData,
         headers: {   
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': token
         }
     }).then(function (response){
         
         console.log(response.data);
-        callback(response.data);
+        callback();
     }).catch(function (error) {
         //handle error
         if (error.response) {

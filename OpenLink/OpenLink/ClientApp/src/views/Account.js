@@ -72,7 +72,7 @@ export class Account extends Component {
                             <br/>
                             <br/>
                             {
-                                this.state.loadApis ? <h2>Loading APIs ...</h2> :  <APIList sendApi ={this.props.sendApi} myApis={this.state.myApis}/>
+                                this.state.loadApis ? <h2>Loading APIs ...</h2> :  <APIList sendApi ={this.props.sendApi} myApis={this.state.myApis.validObject}/>
                             }
                         </div>
                         

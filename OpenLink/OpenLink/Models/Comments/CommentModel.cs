@@ -14,7 +14,7 @@ namespace OpenLink.Models.API
         public Guid ReplyID { get; set; }
         public string Messege { get; set; }
         public int Vote { get; set; }
-        public bool DidVote { get; set; }
+        public int DidVote { get; set; }//0 no vote; 1 agree; 2 disagree
         public string Date { get; set; }
         public DateTime RealDate { get; set; }
         public List<CommentModel> Replies { get; set; }

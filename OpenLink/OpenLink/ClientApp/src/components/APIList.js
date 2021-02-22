@@ -49,7 +49,7 @@ export class APIList extends Component {
                     
                     <div className="api-wrapper">
         
-                        {this.state.apis.validObject.map((myApi,i) => (
+                        {this.state.apis.map((myApi,i) => (
                            
                             <div className="api-list-div" key={i} onClick={(e) => {this.redirect(e,myApi)}}>
                                 <h3 className="api-list-title">{myApi.title}</h3>

@@ -8,6 +8,7 @@ namespace OpenLink.Models.API
     public class CommentVoteModel
     {
         public Guid ID { get; set; }
+        public Guid APIID { get; set; }
         public Guid CommentID { get; set; }
         public Guid UserID { get; set; }
         public Boolean Response { get; set; }

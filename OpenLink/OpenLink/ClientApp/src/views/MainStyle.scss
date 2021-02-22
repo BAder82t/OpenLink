@@ -551,3 +551,47 @@ label.highlight {
     color: $gray-light;
     font-size: 13px;
 }
+.comment_vote{
+    margin: 10px;
+    position: relative;
+    color: $gray-light;
+    font-weight: $bold;
+    font-size: 14px;
+}
+.comment_vote:hover {
+    color: $white;
+    
+}
+.comment_voted{
+    margin: 10px;
+    position: relative;
+    color: $white;
+    font-weight: $bold;
+    font-size: 14px;
+}
+
+.react-paginate ul{
+    display:inline;
+    
+    overflow: hidden;
+  }
+  .center-list{
+    display: table;   /* Allow the centering to work */
+	margin: 0 auto;
+    margin-bottom: 50px;
+  }
+.react-paginate li {
+    
+    margin:5px;
+    border-radius: 10px;
+    border: 3px solid $main;
+    float: left;
+    padding: 10px;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 16px;
+    font-weight: $bold;
+    text-decoration: none;
+    
+}

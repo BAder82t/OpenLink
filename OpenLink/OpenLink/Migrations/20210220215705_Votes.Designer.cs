@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OpenLink.Data;
 
 namespace OpenLink.Migrations
 {
     [DbContext(typeof(OpenLinkContext))]
-    partial class OpenLinkContextModelSnapshot : ModelSnapshot
+    [Migration("20210220215705_Votes")]
+    partial class Votes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,8 +36,8 @@ namespace OpenLink.Migrations
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DidVote")
-                        .HasColumnType("int");
+                    b.Property<bool>("DidVote")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Messege")
                         .HasColumnType("nvarchar(max)");
