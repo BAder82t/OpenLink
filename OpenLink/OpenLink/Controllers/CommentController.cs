@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OpenLink.Data;
 using OpenLink.Models;
 using OpenLink.Models.API;
+using OpenLink.Models.Comments;
 using OpenLink.Models.Login;
 using OpenLink.Service;
 using System;
@@ -25,6 +26,67 @@ namespace OpenLink.Controllers
         public CommentController(OpenLinkContext context)
         {
             _context = context;
+        }
+
+
+        [HttpPost("GetAllReplies")]
+        public ResponseObject GetReplies(GetReplyModel model)
+        {
+            try
+            {
+                bool isloggedin = false;
+                Guid profileID = Guid.Empty;
+
+                ResponseObject obj = TokenGenerator.ValidateToken(this);
+                if (obj != null)
+                {
+                    Guid id = (Guid)obj.ValidObject;
+                    Account validAccount = _context.Account.Where(x => x.ID == id).FirstOrDefault();
+                    profileID = validAccount.RegisterID;
+                    isloggedin = true;
+                }
+
+
+
+
+                var comments = _context.Comments.Where(s => s.APIID == model.APIID);
+                comments = comments.Where(s => s.ReplyID == model.CommentID);
+
+                if (isloggedin)
+                {
+                    var votes = _context.Votes.Where(x => x.UserID == profileID).ToList();
+                    var myVotes = votes.Where(y => y.APIID == model.APIID).ToList();
+
+
+                    foreach (var vote in myVotes)
+                    {
+                        foreach (var comment in comments)
+                        {
+                            if (vote.CommentID == comment.ID)
+                            {
+                                if (vote.Response)
+                                {
+                                    comment.DidVote = 1;
+                                }
+                                else
+                                {
+                                    comment.DidVote = 2;
+                                }
+
+                                continue;
+                            }
+
+                        }
+
+                    }
+                }
+                comments = comments.OrderByDescending(x => x.RealDate);
+                return new ResponseObject(comments, true);
+            }
+            catch (Exception e)
+            {
+                return new ResponseObject(e, false);
+            }
         }
 
         [HttpPost("GetAllComments")]
@@ -185,7 +247,8 @@ namespace OpenLink.Controllers
                     RealDate =DateTime.Now,
                     ReplyID = comment.ReplyID,
                     Name = profile.Name,
-                    Vote = 0
+                    Vote = 0,
+                    ReplyNum=0
                 };
 
                 _context.Entry(commentModel).State = EntityState.Added;

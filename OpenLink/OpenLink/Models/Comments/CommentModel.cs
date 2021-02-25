@@ -12,6 +12,7 @@ namespace OpenLink.Models.API
         public Guid UserID { get; set; }
         public string Name { get; set; }
         public Guid ReplyID { get; set; }
+        public int ReplyNum { get; set; }
         public string Messege { get; set; }
         public int Vote { get; set; }
         public int DidVote { get; set; }//0 no vote; 1 agree; 2 disagree

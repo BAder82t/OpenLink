@@ -529,21 +529,42 @@ label.highlight {
     color: $white;
 }
 .comment_list_div{
-    margin-bottom: 20px;
+    width: 100%;
     position: relative;
+    margin-bottom: 20px;
+
 }
 .comment_name{
+
+
     margin: 10px;
     position: relative;
     color: $white;
     font-weight: $bold;
     font-size: 14px;
 }
-.comment_message{
+.comment_voteNum{
+    width: 50px;
+    border:2px solid  #1ab188;
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+    display: inline-block;
     margin: 10px;
     position: relative;
     color: $white;
+    font-size: 20px;
+}
+.comment_message{
+    
+    margin: 10px;
+    
+    position: relative;
+    color: $white;
     font-size: 17px;
+}
+.margin_80_left{
+    margin-left: 75px;
 }
 .comment_date{
     margin: 10px;

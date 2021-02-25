@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { addNewComment,getComments, voteComment } from '../services/APIService';
-import Moment from 'react-moment';
 
 
 import '../views/MainStyle.scss';
 import { TextEdit } from './TextEdit';
+import { DateService } from '../services/DateService';
 
 
 export class Comments extends Component {
@@ -55,36 +55,6 @@ export class Comments extends Component {
     }
   }
 
-  
-timeAgo(prevDate){
-
-    const diff = Number(new Date()) - prevDate;
-    const minute = 60 * 1000;
-    const hour = minute * 60;
-    const day = hour * 24;
-    const month = day * 30;
-    const year = day * 365;
-    switch (true) {
-        case diff < minute:
-            const seconds = Math.round(diff / 1000);
-             return `${seconds} ${seconds > 1 ? 'seconds' : 'second'} ago`
-        case diff < hour:
-            return Math.round(diff / minute) + ' minutes ago';
-        case diff < day:
-            return Math.round(diff / hour) + ' hours ago';
-        case diff < month:
-            return Math.round(diff / day) + ' days ago';
-        case diff < year:
-            return Math.round(diff / month) + ' months ago';
-        case diff > year:
-            return Math.round(diff / year) + ' years ago';
-        default:
-            return "";
-    }
-}
-
-
-
   addThisComment(e){
       
     e.preventDefault();
@@ -105,9 +75,10 @@ timeAgo(prevDate){
       this.setState({comment:''});
   }
 
-
+  
   getDate(date){
-      var ago = this.timeAgo(new Date(date));
+      var ago = DateService.timeAgo(new Date(date));
+      console.log("Date "+ago);
       return (<p className="comment_date">{ago}</p>);
   }
   vote(e,res,id){
@@ -117,6 +88,7 @@ timeAgo(prevDate){
    
     
     render () {
+       
         console.log("comments "+this.state.comments);
         const numRows = this.state.comments.length;
         return(
@@ -147,30 +119,33 @@ timeAgo(prevDate){
                 
                 numRows>0?
                     this.state.comments.map((myComment,i) => (
-                            
+                       
                         <div  key={i}>
                             <div className="comment_list_div">
-                                <div className="api-wrapper">
-                                    {myComment.vote==0?null:<p className="comment_name">{myComment.vote}</p>}
-                                    
+                                
+                                <div className=" api-wrapper">
+                                    {myComment.vote==0?null:<p className="comment_voteNum">{myComment.vote}</p>}  
                                     <p className="comment_name">{myComment.name}</p>
-                                    {this.getDate(myComment.date)}
-                                </div>    
-                                <p className="comment_message">{myComment.messege}</p>
-                                {this.props.isLoggedIn? 
-                                    myComment.didVote==0?
-                                    <div className="api-wrapper">
-                                        <p className= "comment_vote"onClick={(e) => {this.vote(e,true,myComment.id)}}>Agree</p>
-                                        <p className= "comment_vote" onClick={(e) => {this.vote(e,false,myComment.id)}}>Disagree</p>
-                                    </div>:
-                                    myComment.didVote==1?
+                                    {this.getDate(myComment.realDate)}
+                                </div> 
+                                <div className={myComment.vote==0?null:"margin_80_left"}>
+                                    <p className="comment_message">{myComment.messege}</p>
+                                    {this.props.isLoggedIn? 
+                                        myComment.didVote==0?
                                         <div className="api-wrapper">
-                                            <p className= "comment_voted"onClick={(e) => {this.vote(e,true,myComment.id)}}>Agreed</p>
+                                            <p className= {"comment_vote"} onClick={(e) => {this.vote(e,true,myComment.id)}}>Agree</p>
+                                            <p className= "comment_vote" onClick={(e) => {this.vote(e,false,myComment.id)}}>Disagree</p>
                                         </div>:
-                                        <div className="api-wrapper">
-                                            <p className= "comment_voted" onClick={(e) => {this.vote(e,false,myComment.id)}}>Disagreed</p>
-                                        </div>
-                                :null}
+                                        myComment.didVote==1?
+                                            <div className={"api-wrapper"}>
+                                                <p className= "comment_voted"onClick={(e) => {this.vote(e,true,myComment.id)}}>Agreed</p>
+                                            </div>:
+                                            <div className={"api-wrapper"}>
+                                                <p className= "comment_voted" onClick={(e) => {this.vote(e,false,myComment.id)}}>Disagreed</p>
+                                            </div>
+                                    :null}
+                                </div>
+                                
                                 
                             </div>
                         </div>

@@ -3,15 +3,13 @@ import {CONSTANTS} from './Constants';
 
 
 export function loginAPI(username,password,callback){
-    const endPoint = CONSTANTS.MAINURL+'/auth/login';
+   
 
     var bodyData =JSON.stringify({ 
         username:username,
         password:password
     });
-    axios({
-        method:'POST',
-        url: endPoint,
+    axios.post('/auth/login',{
         data:bodyData,
         headers: {
             
@@ -51,17 +49,14 @@ export function loginAPI(username,password,callback){
 }
 
 export function register(name,username,password,callback){
-    const endPoint = CONSTANTS.MAINURL+'/profile/register';
-
+  
     var bodyData =JSON.stringify({ 
         username: username,
         name: name,
         password:password
     });
 
-    axios({
-        method:'POST',
-        url:endPoint,
+    axios.post('/profile/register',{
         data:bodyData,
         headers: {
             
@@ -84,13 +79,9 @@ export function register(name,username,password,callback){
 }
 
 export function profile(token,callback){
-    const endPoint = CONSTANTS.MAINURL+'/profile';
-    
     console.log("Profile token  "+token);
         
-        axios({
-          method:'GET',
-          url:endPoint,
+        axios.get('/profile',{
           headers: {
             'Authorization': token,
             'Content-Type': 'application/json'
@@ -118,13 +109,10 @@ export function profile(token,callback){
 }
 
 export function createAPI(token,api,callback){
-    const endPoint = CONSTANTS.MAINURL+'/api/create';
 
     var bodyData =JSON.stringify(api);
     console.log("api body :"+bodyData+"  token :"+token);
-    axios({
-        method:'POST',
-        url:endPoint,
+    axios.post('/api/create',{
         data:bodyData,
         headers: {
             'Authorization': token,
@@ -150,13 +138,10 @@ export function createAPI(token,api,callback){
     });
 }
 export function getMyAPIs(token,callback){
-    const endPoint = CONSTANTS.MAINURL+'/api/getmyapis';
     if(token.length>0){
         console.log("calling get my apis  "+token);
 
-        axios({
-            method:'GET',
-            url:endPoint,
+        axios.get('/api/getmyapis',{
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json'
@@ -184,16 +169,13 @@ export function getMyAPIs(token,callback){
     
 }
 export function searchAPIs(search,pageNum,callback){
-    const endPoint = CONSTANTS.MAINURL+'/api/search';
        
     var bodyData =JSON.stringify({ 
         searchString: search,
         pageNumber:pageNum
     });
 
-    axios({
-        method:'POST',
-        url:endPoint,
+    axios.post('/api/search',{
         data:bodyData,
         headers: {   
             'Content-Type': 'application/json'
@@ -222,15 +204,12 @@ export function searchAPIs(search,pageNum,callback){
 }
 
 export function addNewComment(comment,id,token,callback){
-    const endPoint = CONSTANTS.MAINURL+'/api/Comment/addcomment';
     var bodyData =JSON.stringify({ 
         message: comment,
         apiid:id
     });
 
-    axios({
-        method:'POST',
-        url:endPoint,
+    axios.post('/api/Comment/addcomment',{
         data:bodyData,
         headers: {   
             'Content-Type': 'application/json',
@@ -259,15 +238,12 @@ export function addNewComment(comment,id,token,callback){
     
 }
 export function getComments(id,token,callback){
-    const endPoint = CONSTANTS.MAINURL+'/api/Comment/GetAllComments';
        
     var bodyData =JSON.stringify({ 
         apiid:id
     });
 
-    axios({
-        method:'POST',
-        url:endPoint,
+    axios.post('/api/Comment/GetAllComments',{
         data:bodyData,
         headers: {   
             'Content-Type': 'application/json',
@@ -298,15 +274,12 @@ export function getComments(id,token,callback){
 
 
 export function voteComment(response,id,token,callback){
-    const endPoint = CONSTANTS.MAINURL+'/api/Comment/vote';
     var bodyData =JSON.stringify({ 
         response: response,
         commentID:id
     });
 
-    axios({
-        method:'POST',
-        url:endPoint,
+    axios.post('/api/Comment/vote',{
         data:bodyData,
         headers: {   
             'Content-Type': 'application/json',
@@ -316,6 +289,41 @@ export function voteComment(response,id,token,callback){
         
         console.log(response.data);
         callback();
+    }).catch(function (error) {
+        //handle error
+        if (error.response) {
+            // Request made and server responded
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+            } else if (error.request) {
+            // The request was made but no response was received
+            console.log(error.request);
+            } else if(error.message){
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+            }
+    });
+    
+    
+}
+export function getReplies(id,commentID,token,callback){
+       
+    var bodyData =JSON.stringify({ 
+        apiid:id,
+        commentID:commentID
+    });
+
+    axios.post('/api/Comment/GetAllReplies',{
+        data:bodyData,
+        headers: {   
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    }).then(function (response){
+        
+        console.log(response.data);
+        callback(response.data);
     }).catch(function (error) {
         //handle error
         if (error.response) {
