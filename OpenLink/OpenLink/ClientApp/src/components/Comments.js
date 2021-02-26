@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { addNewComment,getComments, voteComment } from '../services/APIService';
+import { addNewComment,addNewReply,getComments, voteComment } from '../services/APIService';
 
 
 import '../views/MainStyle.scss';
 import { TextEdit } from './TextEdit';
 import { DateService } from '../services/DateService';
+import { ReplyComment } from './ReplyComment';
 
 
 export class Comments extends Component {
@@ -15,7 +16,9 @@ export class Comments extends Component {
       this.state = {
          comment:'',
          comments:[],
-         loading:true
+         loading:true,
+         replyText:'',
+         replyComment:''
       }
      
       this.getComment = this.getComment.bind(this);
@@ -24,6 +27,12 @@ export class Comments extends Component {
       this.getReturn =this.getReturn.bind(this);
       this.getAllComments = this.getAllComments.bind(this);
       this.vote = this.vote.bind(this);
+      this.showtext = this.showtext.bind(this);
+      this.showReplyText = this.showReplyText.bind(this);
+      this.getReply = this.getReply.bind(this);
+      this.replyThisComment = this.replyThisComment.bind(this);
+      this.cancelReply = this.cancelReply.bind(this);
+      this.stopLoading = this.stopLoading.bind(this);
 
       this.commentRef = React.createRef();
   
@@ -37,12 +46,24 @@ export class Comments extends Component {
   getAllComments(){
     getComments(this.props.APIID,this.props.token,this.getReturn);
   }
+  stopLoading(){
+    this.setState({
+       
+        loading:false
+    });
+  }
 
   getComment(e){
     this.setState({
         comment:e
     });
   }
+  getReply(e){
+    this.setState({
+        replyComment:e
+    });
+  }
+
 
   getReturn(data){
     //refresh Comments
@@ -70,9 +91,29 @@ export class Comments extends Component {
     });
     
   }
+  replyThisComment(e){
+      
+    e.preventDefault();
+    var self =this;
+    var id =this.props.APIID ;
+    var token = this.props.token;
+    this.setState({
+        
+        loading:true
+    },()=>{
+        addNewReply(self.state.replyComment,id,self.state.replyText,token,self.stopLoading);
+        
+        this.cancelReply(e);
+    });
+    
+  }
   cancelComment(e){
       e.preventDefault();
       this.setState({comment:''});
+  }
+  cancelReply(e){
+    e.preventDefault();
+    this.setState({replyComment:''});
   }
 
   
@@ -85,6 +126,35 @@ export class Comments extends Component {
       e.preventDefault();
       voteComment(res,id,this.props.token,this.getAllComments);
   }
+
+  showReplyText(e,commentID){
+    e.preventDefault();
+    this.setState({replyText:commentID});
+}
+  showtext(){
+    return(
+        <div className="margin_80_left margin_80_bottom">
+            <TextEdit
+                value={this.state.replyComment}
+                type="textarea"
+                optional={true}
+                hint="Add a Reply here"
+                fontSize={12}
+                getValue={this.getReply}/>
+
+                {this.state.replyComment.length>0? 
+                    <div className="comment_div">
+                        <button className="cancel_button" onClick={this.cancelComment}>
+                            CANCEL
+                        </button>
+                        <button className="comment_button" onClick={this.replyThisComment}>
+                            REPLY
+                        </button>
+                    </div>
+                :null}
+        </div>
+    );
+}
    
     
     render () {
@@ -135,15 +205,27 @@ export class Comments extends Component {
                                         <div className="api-wrapper">
                                             <p className= {"comment_vote"} onClick={(e) => {this.vote(e,true,myComment.id)}}>Agree</p>
                                             <p className= "comment_vote" onClick={(e) => {this.vote(e,false,myComment.id)}}>Disagree</p>
+                                            {this.props.isLoggedIn ?<p className= "comment_vote" onClick={(e) => {this.showReplyText(e,myComment.id)}}>Reply</p>:null}
+                                        
                                         </div>:
                                         myComment.didVote==1?
                                             <div className={"api-wrapper"}>
                                                 <p className= "comment_voted"onClick={(e) => {this.vote(e,true,myComment.id)}}>Agreed</p>
+                                                {this.props.isLoggedIn ?<p className= "comment_vote" onClick={(e) => {this.showReplyText(e,myComment.id)}}>Reply</p>:null}
+                                        
                                             </div>:
                                             <div className={"api-wrapper"}>
                                                 <p className= "comment_voted" onClick={(e) => {this.vote(e,false,myComment.id)}}>Disagreed</p>
+                                                {this.props.isLoggedIn ?<p className= "comment_vote" onClick={(e) => {this.showReplyText(e,myComment.id)}}>Reply</p>:null}
+                                        
                                             </div>
                                     :null}
+                                     {this.state.replyText===myComment.id?this.showtext():null}
+                                    <ReplyComment 
+                                        APIID={this.props.APIID} 
+                                        CommentID ={myComment.id} 
+                                        token={this.props.token}
+                                        isLoggedIn={this.props.isLoggedIn}/>
                                 </div>
                                 
                                 

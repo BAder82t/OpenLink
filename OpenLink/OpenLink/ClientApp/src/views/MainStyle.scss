@@ -505,7 +505,7 @@ label.highlight {
     padding: 10px;
     display: inline-block;
     border: 0;
-    outline: none;
+    
     position: relative;
     overflow: hidden;
     font-weight: $bold;
@@ -519,7 +519,7 @@ label.highlight {
     padding:10px;
     display: inline-block;
     border: 0;
-    outline: none;
+
     position: relative;
     overflow: hidden;
     font-weight: $bold;
@@ -565,6 +565,9 @@ label.highlight {
 }
 .margin_80_left{
     margin-left: 75px;
+}
+.margin_80_bottom{
+    margin-bottom: 75px;
 }
 .comment_date{
     margin: 10px;

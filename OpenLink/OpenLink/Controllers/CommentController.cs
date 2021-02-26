@@ -80,7 +80,7 @@ namespace OpenLink.Controllers
 
                     }
                 }
-                comments = comments.OrderByDescending(x => x.RealDate);
+                comments = comments.OrderBy(x => x.RealDate);
                 return new ResponseObject(comments, true);
             }
             catch (Exception e)
