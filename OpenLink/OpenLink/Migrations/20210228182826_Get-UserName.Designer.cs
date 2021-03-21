@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OpenLink.Data;
 
 namespace OpenLink.Migrations
 {
     [DbContext(typeof(OpenLinkContext))]
-    partial class OpenLinkContextModelSnapshot : ModelSnapshot
+    [Migration("20210228182826_Get-UserName")]
+    partial class GetUserName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,46 +140,6 @@ namespace OpenLink.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Account");
-                });
-
-            modelBuilder.Entity("OpenLink.Models.AccountResult", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AccessToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("AccountID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsValid")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Tokens");
-                });
-
-            modelBuilder.Entity("OpenLink.Models.Bookmarks.BookmarkedModel", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("APIID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Bookmarks");
                 });
 
             modelBuilder.Entity("OpenLink.Models.Link", b =>

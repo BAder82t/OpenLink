@@ -177,6 +177,7 @@ export class ReplyComment extends Component {
                                         APIID={this.props.APIID} 
                                         CommentID ={myComment.id} 
                                         token={this.props.token}
+                                        replyNum ={myComment.replyNum}
                                         isLoggedIn={this.props.isLoggedIn}/>
 
                         </div>
@@ -194,7 +195,7 @@ export class ReplyComment extends Component {
         return(
             <div>
                 {this.state.open?<p className="comment_name" onClick={this.closeReplies}>Close Replies</p>:
-                <p className="comment_name" onClick={this.openReplies}>View Replies</p>}
+                <p className="comment_name" onClick={this.openReplies}>{"View Replies ("+this.props.replyNum+")"}</p>}
                 {
                     this.state.open? this.showRepliesList():null
                 }

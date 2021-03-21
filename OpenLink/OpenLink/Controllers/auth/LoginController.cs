@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OpenLink.Data;
 using OpenLink.Models;
+using OpenLink.Models.Login;
 using OpenLink.Service;
 
 namespace OpenLink.Controllers.auth
@@ -23,21 +25,7 @@ namespace OpenLink.Controllers.auth
         }
 
         // GET: Login
-        [HttpGet("auth/login")]
-        public ActionResult<Account> Get()
-        {
-            Account myAccount= new Account
-            {
-                Username ="TEst",
-                Password ="PAssword",
-                ID =new Guid()
 
-            };
-            
-
-            return myAccount;
-            
-        }
         //// GET: get all acounts
         //[HttpGet("auth/loginall")]
         //public ResponseObject GetAll()
@@ -54,6 +42,58 @@ namespace OpenLink.Controllers.auth
             
 
         //}
+
+        [HttpGet("auth/logout")]
+        public ActionResult<ResponseObject> Logout()
+        {
+            ResponseObject obj = TokenGenerator.ValidateToken(this);
+
+            if (!obj.Valid)
+            {
+                return new ResponseObject("An error Occured", false);
+            }
+            var header = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
+            if (header == null)
+            {
+
+                return new ResponseObject(null, false);
+            }
+            string credentials = header.Parameter;
+            AccountResult account = _context.Tokens.Where(x => x.AccessToken == credentials).FirstOrDefault();
+
+            _context.Tokens.Remove(account);
+            _context.SaveChanges();
+            return new ResponseObject(true, true);
+
+        }
+        [HttpPost("auth/refersh")]
+
+        public ActionResult<ResponseObject> Refresh(RefreshModel refresh)
+        {
+            
+            AccountResult account = _context.Tokens.Where(x => x.RefreshToken == refresh.Refersh).FirstOrDefault();
+           
+
+            String accesstoken = new TokenGenerator().GenerateToken(account.AccountID);
+            string refreshtoken = new TokenGenerator().GenerateRefreshToken();
+
+            AccountResult accountResult = new AccountResult
+            {
+                IsValid = true,
+                AccessToken = accesstoken,
+                RefreshToken = refreshtoken,
+                ID = Guid.NewGuid(),
+                AccountID =account.AccountID
+            };
+
+            _context.Entry(accountResult).State = EntityState.Added;
+            _context.Tokens.Remove(account);
+            _context.SaveChanges();
+
+
+            return new ResponseObject(accountResult, true);
+
+        }
         
         [HttpPost("auth/login")]
 
@@ -84,8 +124,12 @@ namespace OpenLink.Controllers.auth
                 IsValid = true,
                 AccessToken = accesstoken,
                 RefreshToken = refreshtoken,
-                ID = Guid.NewGuid()
+                ID = Guid.NewGuid(),
+                AccountID = validAccount.ID
             };
+
+            _context.Entry(accountResult).State = EntityState.Added;
+            _context.SaveChanges();
 
             return new ResponseObject(accountResult, true);
 

@@ -224,6 +224,7 @@ export class Comments extends Component {
                                     <ReplyComment 
                                         APIID={this.props.APIID} 
                                         CommentID ={myComment.id} 
+                                        replyNum ={myComment.replyNum}
                                         token={this.props.token}
                                         isLoggedIn={this.props.isLoggedIn}/>
                                 </div>

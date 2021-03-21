@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using OpenLink.Data;
 using OpenLink.Interfaces;
 using OpenLink.Models;
+using OpenLink.Models.Bookmarks;
 using OpenLink.Models.Login;
 using OpenLink.Service;
 
@@ -42,6 +43,11 @@ namespace OpenLink.Controllers.auth
                 if (exists)
                 {
                     return new ResponseObject("This username already exists",false);
+                }
+                var existsName = _context.ProfileModel.Any(x => x.Name == profileModel.Name);
+                if (existsName)
+                {
+                    return new ResponseObject("This name already exists", false);
                 }
                 ProfileModel profileToSave = new ProfileModel
                 {
@@ -143,6 +149,35 @@ namespace OpenLink.Controllers.auth
             
 
         }
-       
+        [HttpGet("profile/getBookmarks")]
+        public ResponseObject GetAll()
+
+        {
+            ResponseObject obj = TokenGenerator.ValidateToken(this);
+
+            if (!obj.Valid)
+            {
+                return new ResponseObject("An error Occured", false);
+            }
+            Guid id = (Guid)obj.ValidObject;
+            Account validAccount = _context.Account.Where(x => x.ID == id).FirstOrDefault();
+            Guid profileID = validAccount.RegisterID;
+
+            List<BookmarkedModel> bookmarks = _context.Bookmarks.Where(x => x.UserID == profileID).ToList();
+
+            if (bookmarks.Count > 0)
+            {
+                return new ResponseObject(bookmarks, true);
+            }
+            else
+            {
+                return new ResponseObject("You have no bookmarks", false);
+            }
+            
+            
+
+
+        }
+
     }
 }

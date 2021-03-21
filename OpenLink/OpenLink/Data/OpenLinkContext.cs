@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OpenLink.Models;
 using OpenLink.Models.API;
+using OpenLink.Models.Bookmarks;
 using OpenLink.Models.Login;
 
 namespace OpenLink.Data
@@ -23,6 +24,8 @@ namespace OpenLink.Data
         public DbSet<Link> Links { get; set; }
         public DbSet<CommentModel> Comments { get; set; }
         public DbSet<CommentVoteModel> Votes { get; set; }
+        public DbSet<AccountResult> Tokens { get; set; }
+        public DbSet<BookmarkedModel> Bookmarks { get; set; }
         public object HttpContext { get; internal set; }
     }
 }

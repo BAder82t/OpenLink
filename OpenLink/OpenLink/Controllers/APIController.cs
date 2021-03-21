@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OpenLink.Data;
 using OpenLink.Models;
 using OpenLink.Models.API;
+using OpenLink.Models.Bookmarks;
 using OpenLink.Models.Login;
 using OpenLink.Service;
 using System;
@@ -79,6 +80,11 @@ namespace OpenLink.Controllers
         [HttpGet("api/deleteAll")]
         public ResponseObject DeleteAll()
         {
+            var rowsLink = from o in _context.Links select o;
+            foreach (var row in rowsLink)
+            {
+                _context.Links.Remove(row);
+            }
             var rows = from o in _context.APIModels select o;
             foreach (var row in rows)
             {
@@ -109,6 +115,7 @@ namespace OpenLink.Controllers
                 model.RealDate = DateTime.Now;
                 model.UserID = profile.ID;
                 model.ID = Guid.NewGuid();
+                model.Name = profile.Name;
                 foreach(Link link in model.Links)
                 {
                     link.ID = Guid.NewGuid();
@@ -138,7 +145,8 @@ namespace OpenLink.Controllers
                 int numberOfAPIS = 2;
                 if (!String.IsNullOrEmpty(searchModel.SearchString))
                 {
-                    apis = apis.Where(s => s.Title.Contains(searchModel.SearchString));
+                    apis = apis.Where(s => s.Title.Contains(searchModel.SearchString) || s.Description.Contains(searchModel.SearchString)
+                        || s.Name.Contains(searchModel.SearchString));
 
                 }
                 else
@@ -202,6 +210,31 @@ namespace OpenLink.Controllers
                 return new ResponseObject(e, false);
             }
 
+        }
+
+        [HttpPost("api/bookmark")]
+        public ResponseObject Bookmark(BookmarkedAPI api)
+        {
+            ResponseObject obj = TokenGenerator.ValidateToken(this);
+
+            if (!obj.Valid)
+            {
+                return new ResponseObject("An error Occured", false);
+            }
+            Guid id = (Guid)obj.ValidObject;
+            Account validAccount = _context.Account.Where(x => x.ID == id).FirstOrDefault();
+            Guid profileID = validAccount.RegisterID;
+            ProfileModel profile = _context.ProfileModel.Where(p => p.ID == profileID).FirstOrDefault();
+
+            BookmarkedModel model = new BookmarkedModel
+            {
+                ID = Guid.NewGuid(),
+                APIID = api.APIID,
+                UserID = profileID
+            };
+            _context.Entry(model).State = EntityState.Added;
+            _context.SaveChanges();
+            return new ResponseObject(model, true);
         }
 
 

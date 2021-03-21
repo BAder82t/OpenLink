@@ -17,6 +17,7 @@ namespace OpenLink.Models
         public List<Link> Links { get; set; }
         
         public Guid UserID { get; set; }
+        public string Name { get; set; }
         
         public string Date { get; set; }
         public DateTime RealDate { get; set; }

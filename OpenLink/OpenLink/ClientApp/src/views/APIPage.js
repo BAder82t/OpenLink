@@ -32,10 +32,12 @@ export class APIPage extends Component {
                 <div className="scroll">
                     <div className="profile_form">
                         <h2 className="profile_name">{this.state.api.title}</h2>
+                        <p className="profile_name">{"By: "+this.state.api.name}</p>
                         <p className="profile_name">{this.state.api.description}</p>
                     </div>
+
                     
-                    <h3>Links:</h3>
+                    
                     {this.state.api.links.map((link,i) => (
                                
                             <div className="profile_form" key={i}>

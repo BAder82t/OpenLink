@@ -250,6 +250,12 @@ namespace OpenLink.Controllers
                     Vote = 0,
                     ReplyNum=0
                 };
+                if (comment.ReplyID != Guid.Empty)
+                {
+                    CommentModel reply = _context.Comments.Where(x => x.ID == comment.ReplyID).FirstOrDefault();
+                    reply.ReplyNum = reply.ReplyNum + 1;
+                    _context.Entry(reply).State = EntityState.Modified;
+                }
 
                 _context.Entry(commentModel).State = EntityState.Added;
                 _context.SaveChanges();

@@ -37,6 +37,8 @@ namespace OpenLink
 
             services.AddDbContext<OpenLinkContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OpenLinkContext")));
+        
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
